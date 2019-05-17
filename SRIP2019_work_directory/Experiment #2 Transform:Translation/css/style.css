@@ -1,0 +1,17 @@
+#point-display {
+    margin: 0px;
+    /*height : 500px;
+    width:100%;*/
+    background-color: #000000;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+#slider {
+    float:left;
+    margin-right:10px;
+}
+#coordinate {
+    color: blue;
+    float: left;
+    margin-right:10px;
+}
