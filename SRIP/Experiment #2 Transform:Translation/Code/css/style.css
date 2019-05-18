@@ -1,0 +1,44 @@
+html {
+    height: 100%;
+}
+body
+{
+    height: 100%;
+}
+#point{
+    width:100%;
+    height: 80%;
+    display: flex;
+}
+#point > div:nth-child(2) { flex: 1; }
+#point-display {
+    margin: 0px;
+    background-color: #000000;
+    overflow: hidden;
+    width:80%;
+}
+#point-info{
+    width:20%;
+    margin-left: 10px;
+}
+#slider {
+    float:left;
+    margin-top: 10px; 
+    margin-right:10px;
+}
+#coordinate > span,input {
+    color: blue;
+    float: left;
+    margin-top: 10px; 
+    margin-right:10px;
+}
+#change-destination{
+    float: left;
+    margin-top: 10px; 
+    margin-right:10px;
+}
+#reset-camera{
+    float: left;
+    margin-top: 10px; 
+    margin-right:10px;
+}
