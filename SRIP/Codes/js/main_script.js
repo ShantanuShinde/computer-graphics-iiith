@@ -3,12 +3,13 @@ var vx,vy,vz;
 var camera, scene, renderer, control;
 var sphere;
 var Xaxis, Yaxis, Zaxis;
+var transformCo_ordinate = false;
 
 
 init();
 
 function init(){
-    graphic_Display = document.getElementById("point-display");
+    graphic_Display = document.getElementById("point_display");
     vx = 100, vy = 100, vz = -300;
 
     // initialize camera and scene
@@ -30,7 +31,7 @@ function init(){
         color: 0x00ff00
     })
     var geometry = new THREE.Geometry();
-    geometry.vertices.push(new THREE.Vector3(1500,0,0), new THREE.Vector3(-1500,0,0));
+    geometry.vertices.push(new THREE.Vector3(10000,0,0), new THREE.Vector3(-10000,0,0));
     Xaxis = new THREE.Line(geometry,material);
     scene.add(Xaxis);
 
@@ -39,7 +40,7 @@ function init(){
         color: 0xff0000
     })
     var geometry = new THREE.Geometry();
-    geometry.vertices.push(new THREE.Vector3(0,1500,0), new THREE.Vector3(0,-1500,0));
+    geometry.vertices.push(new THREE.Vector3(0,10000,0), new THREE.Vector3(0,-10000,0));
     Yaxis = new THREE.Line(geometry,material);
     scene.add(Yaxis);
 
@@ -48,7 +49,7 @@ function init(){
         color: 0x0000ff
     })
     var geometry = new THREE.Geometry();
-    geometry.vertices.push(new THREE.Vector3(0,0,1500), new THREE.Vector3(0,0,-1500));
+    geometry.vertices.push(new THREE.Vector3(0,0,10000), new THREE.Vector3(0,0,-10000));
     Zaxis = new THREE.Line(geometry,material);
     scene.add(Zaxis);
 
@@ -64,16 +65,32 @@ function init(){
     control.addEventListener( 'change', render ); 
     control.screenSpacePanning = false;
     control.minDistance = 100;
-    control.maxDistance = 800;
+    control.maxDistance = 1000;
     
 
     displayPosition();
 }
 function changePosition(newVal)
 {
-    //console.log(newVal);
-    sphere.position.set((vx/100)*newVal,(vy/100)*newVal,(vz/100)*newVal);
-    renderer.render(scene,camera);
+    if(!transformCo_ordinate) {
+        sphere.position.set((vx/100)*newVal,(vy/100)*newVal,(vz/100)*newVal);
+    }
+    else{
+        Xaxis.geometry.vertices[0].set(10000,-(vy/100)*newVal,-(vz/100)*newVal);
+        Xaxis.geometry.vertices[1].set(-10000,-(vy/100)*newVal,-(vz/100)*newVal);
+
+        Yaxis.geometry.vertices[0].set(-(vx/100)*newVal,10000,-(vz/100)*newVal);
+        Yaxis.geometry.vertices[1].set(-(vx/100)*newVal,-10000,-(vz/100)*newVal);
+
+        Zaxis.geometry.vertices[0].set(-(vx/100)*newVal,-(vy/100)*newVal,10000);
+        Zaxis.geometry.vertices[0].set(-(vx/100)*newVal,-(vy/100)*newVal,-10000);
+
+        Xaxis.geometry.verticesNeedUpdate = true;
+        Yaxis.geometry.verticesNeedUpdate = true;
+        Zaxis.geometry.verticesNeedUpdate = true;
+        
+    }
+    render();
     displayPosition();
 }
 
@@ -84,12 +101,13 @@ function setNewDestination()
     vz = document.getElementById("newZ").value;
     sphere.position.set(0,0,0);
     document.getElementById("slider").getElementsByTagName("input")[0].value = 0;
+    displayPosition();
     render();
 }
 
 function displayPosition()
 {
-    var info = document.getElementById("point-info");
+    var info = document.getElementById("point_info");
     var coordinate_info = "(" + sphere.position.x + ", " + sphere.position.y + ", " + sphere.position.z + ")"; 
     info.getElementsByTagName("p")[1].innerHTML = coordinate_info;
 }
@@ -101,4 +119,12 @@ function render() {
 function resetCamera()
 {
     control.reset();
+}
+
+function transformCoordinate(transform)
+{
+    transformCo_ordinate = transform;
+    sphere.position.set(0,0,0);
+    displayPosition();
+    render();
 }

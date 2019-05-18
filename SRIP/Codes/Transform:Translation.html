@@ -8,12 +8,13 @@
     </head>
     <body>
         <div id="point">
-            <div id="point-display">
+            <div id="point_display">
 
             </div>
-            <div id="point-info">
+            <div id="point_info">
                 <p>Current point position:</p>
                 <p></p>
+                <input type="checkbox" id="coordinate_transform" onclick="transformCoordinate(this.checked)"><span>Transform co-ordinate system</span></input>
             </div>
         </div>
         <div id="control">
@@ -25,8 +26,8 @@
                 <span >Y: </span><input id="newY" type="number" step="0.0001">
                 <span >Z: </span><input id="newZ" type="number" step="0.0001">
             </div>
-            <button id="change-destination" onclick="setNewDestination()">Set New Destination</button>
-            <button id = "reset-camera" onclick="resetCamera()">Reset Camera</button>
+            <button id="change_destination" onclick="setNewDestination()">Set New Destination</button>
+            <button id = "reset_camera" onclick="resetCamera()">Reset Camera</button>
         </div>
         <script src="../Libraries/three.js-master/build/three.js"></script>
         <script src="../Libraries/three.js-master/examples/js/controls/OrbitControls.js"></script>

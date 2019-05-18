@@ -11,13 +11,13 @@ body
     display: flex;
 }
 #point > div:nth-child(2) { flex: 1; }
-#point-display {
+#point_display {
     margin: 0px;
     background-color: #000000;
     overflow: hidden;
     width:80%;
 }
-#point-info{
+#point_info{
     width:20%;
     margin-left: 10px;
 }
@@ -26,18 +26,18 @@ body
     margin-top: 10px; 
     margin-right:10px;
 }
-#coordinate > span,input {
+#coordinate > span , #coordinate > input {
     color: blue;
     float: left;
     margin-top: 10px; 
     margin-right:10px;
 }
-#change-destination{
+#change_destination{
     float: left;
     margin-top: 10px; 
     margin-right:10px;
 }
-#reset-camera{
+#reset_camera{
     float: left;
     margin-top: 10px; 
     margin-right:10px;
