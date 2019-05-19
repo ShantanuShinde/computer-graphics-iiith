@@ -67,8 +67,8 @@ function init(){
     control.minDistance = 100;
     control.maxDistance = 1000;
     
-
     displayPosition();
+    displayTransformationMatrix();
 }
 function changePosition(newVal)
 {
@@ -83,7 +83,7 @@ function changePosition(newVal)
         Yaxis.geometry.vertices[1].set(-(vx/100)*newVal,-10000,-(vz/100)*newVal);
 
         Zaxis.geometry.vertices[0].set(-(vx/100)*newVal,-(vy/100)*newVal,10000);
-        Zaxis.geometry.vertices[0].set(-(vx/100)*newVal,-(vy/100)*newVal,-10000);
+        Zaxis.geometry.vertices[1].set(-(vx/100)*newVal,-(vy/100)*newVal,-10000);
 
         Xaxis.geometry.verticesNeedUpdate = true;
         Yaxis.geometry.verticesNeedUpdate = true;
@@ -99,8 +99,9 @@ function setNewDestination()
     vx = document.getElementById("newX").value;
     vy = document.getElementById("newY").value;
     vz = document.getElementById("newZ").value;
-    sphere.position.set(0,0,0);
-    document.getElementById("slider").getElementsByTagName("input")[0].value = 0;
+
+    resetPoint();
+    displayTransformationMatrix();
     displayPosition();
     render();
 }
@@ -123,8 +124,41 @@ function resetCamera()
 
 function transformCoordinate(transform)
 {
+    resetPoint();
     transformCo_ordinate = transform;
-    sphere.position.set(0,0,0);
     displayPosition();
     render();
+}
+
+function resetPoint()
+{
+    if(transformCo_ordinate)
+    {
+        Xaxis.geometry.vertices[0].set(10000,0,0);
+        Xaxis.geometry.vertices[1].set(-10000,0,0);
+
+        Yaxis.geometry.vertices[0].set(0,10000,0);
+        Yaxis.geometry.vertices[1].set(0,-10000,0);
+
+        Zaxis.geometry.vertices[0].set(0,0,10000);
+        Zaxis.geometry.vertices[1].set(0,0,-10000);
+
+        Xaxis.geometry.verticesNeedUpdate = true;
+        Yaxis.geometry.verticesNeedUpdate = true;
+        Zaxis.geometry.verticesNeedUpdate = true;
+    }
+    else
+    {
+        sphere.position.set(0,0,0);
+    }
+    document.getElementById("slider").getElementsByTagName("input")[0].value = 0;
+}
+
+function displayTransformationMatrix()
+{
+    var matrix = "$$\\begin{bmatrix} 1 & 0 & 0 & " + vx + "\\\\ 0 & 1 & 0 & " + vy + "\\\\ 0 & 0 & 1 & " + vz + "\\\\ 0 & 0 & 0 & 1 \\end{bmatrix}$$"
+    var tranMat = document.getElementById("transformMatrix");
+    tranMat.innerHTML = matrix;
+
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, tranMat]);
 }

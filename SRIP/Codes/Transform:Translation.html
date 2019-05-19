@@ -4,9 +4,13 @@
         <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
         <title>Transform : Translation</title>
         <link rel="stylesheet" href="css/style.css"/>
+        <script type="text/x-mathjax-config">
+            MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+        </script>
         
     </head>
     <body>
+
         <div id="point">
             <div id="point_display">
 
@@ -15,6 +19,9 @@
                 <p>Current point position:</p>
                 <p></p>
                 <input type="checkbox" id="coordinate_transform" onclick="transformCoordinate(this.checked)"><span>Transform co-ordinate system</span></input>
+                <p>Transformation matrix:</p>
+                <div id = "transformMatrix">
+                </div>
             </div>
         </div>
         <div id="control">
@@ -31,6 +38,7 @@
         </div>
         <script src="../Libraries/three.js-master/build/three.js"></script>
         <script src="../Libraries/three.js-master/examples/js/controls/OrbitControls.js"></script>
+        <script src="../Libraries/MathJax-master/MathJax.js?config=TeX-MML-AM_CHTML"></script>
         <script src="js/main_script.js"></script>
     </body>
 
