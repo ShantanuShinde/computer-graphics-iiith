@@ -109,7 +109,8 @@ function setNewDestination()
 function displayPosition()
 {
     var info = document.getElementById("point_info");
-    var coordinate_info = "(" + sphere.position.x + ", " + sphere.position.y + ", " + sphere.position.z + ")"; 
+    var sliderValue = document.getElementById("slider").getElementsByTagName("input")[0].value;
+    var coordinate_info = "(" + (vx/100)*sliderValue + ", " + (vy/100)*sliderValue + ", " + (vz/100)*sliderValue + ")"; 
     info.getElementsByTagName("p")[1].innerHTML = coordinate_info;
 }
 
