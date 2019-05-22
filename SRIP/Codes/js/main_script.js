@@ -13,7 +13,7 @@ function init(){
     vx = 100, vy = 100, vz = -300;
 
     // initialize camera and scene
-    camera = new THREE.PerspectiveCamera( 40, /*window.innerWidth / window.innerHeight*/graphic_Display.offsetWidth/graphic_Display.offsetHeight, 1, 1000 );
+    camera = new THREE.PerspectiveCamera( 40, graphic_Display.offsetWidth/graphic_Display.offsetHeight, 1, 1000 );
     camera.position.set(400,400,400);
     camera.lookAt(new THREE.Vector3(0,0,0));
     scene = new THREE.Scene();
@@ -56,7 +56,7 @@ function init(){
     // Create and initialize renderer
     renderer = new THREE.WebGLRenderer( { antialias: true } );
     renderer.setPixelRatio( window.devicePixelRatio );
-    renderer.setSize(graphic_Display.offsetWidth,graphic_Display.offsetHeight/*window.innerWidth, window.innerHeight */);
+    renderer.setSize(graphic_Display.offsetWidth,graphic_Display.offsetHeight);
     graphic_Display.appendChild( renderer.domElement );
     render();
 
@@ -67,6 +67,8 @@ function init(){
     control.minDistance = 100;
     control.maxDistance = 1000;
     
+    window.addEventListener("resize", resizeDisplay);
+
     displayPosition();
     displayTransformationMatrix();
 }
@@ -111,7 +113,7 @@ function displayPosition()
     var info = document.getElementById("point_info");
     var sliderValue = document.getElementById("slider").getElementsByTagName("input")[0].value;
     var coordinate_info = "(" + (vx/100)*sliderValue + ", " + (vy/100)*sliderValue + ", " + (vz/100)*sliderValue + ")"; 
-    info.getElementsByTagName("p")[1].innerHTML = coordinate_info;
+    info.getElementsByTagName("p")[0].innerHTML = coordinate_info;
 }
 
 function render() {
@@ -162,4 +164,12 @@ function displayTransformationMatrix()
     tranMat.innerHTML = matrix;
 
     MathJax.Hub.Queue(["Typeset", MathJax.Hub, tranMat]);
+}
+
+function resizeDisplay()
+{
+    camera.aspect = graphic_Display.offsetWidth/graphic_Display.offsetHeight
+    camera.updateProjectionMatrix();
+    renderer.setSize(graphic_Display.offsetWidth,graphic_Display.offsetHeight);
+    render();
 }
