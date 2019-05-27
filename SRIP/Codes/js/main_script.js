@@ -1,160 +1,81 @@
-var graphic_Display;
-var vx,vy,vz;
-var camera, scene, renderer, control;
-var sphere;
-var Xaxis, Yaxis, Zaxis;
-var transformCo_ordinate = false;
 
+
+ var canvas = document.getElementById("renderCanvas");
+ var engine = new BABYLON.Engine(canvas,true);
+
+var scene, camera, sphere;
+var Xaxis, Yaxis, Zaxis;
+var vx,vy,vz;
+var transformCo_ordinate;
+var textplaneTexture; 
 
 init();
 
 function init(){
-    graphic_Display = document.getElementById("point_display");
+
+    // Create scene
+    scene = new BABYLON.Scene(engine);
+
+    // Create camera
+    camera = new BABYLON.ArcRotateCamera("Camera", Math.PI / 2, Math.PI / 2, 100, new BABYLON.Vector3(0,0,0), scene);
+    camera.setPosition(new BABYLON.Vector3(100,100,100))
+    
+    camera.attachControl(canvas,true);
+    
+    // Add lights to the scene
+    var light1 = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(1, 1, 0), scene);
+    var light2 = new BABYLON.PointLight("light2", new BABYLON.Vector3(0, 1, -1), scene);
+
+    // Create axes
+    Xaxis =  BABYLON.MeshBuilder.CreateLines("Xaxis",{points:[new BABYLON.Vector3(1000,0,0),new BABYLON.Vector3(-1000,0,0)], updatable:true},scene);
+    Yaxis =  BABYLON.MeshBuilder.CreateLines("Yaxis",{points:[new BABYLON.Vector3(0,1000,0),new BABYLON.Vector3(0,-1000,0)], updatable:true},scene);
+    Zaxis =  BABYLON.MeshBuilder.CreateLines("Zaxis",{points:[new BABYLON.Vector3(0,0,1000),new BABYLON.Vector3(0,0,-1000)], updatable:true},scene);
+    Xaxis.color = new BABYLON.Color3(1,0,0);
+    Yaxis.color = new BABYLON.Color3(0,1,0);
+    Zaxis.color = new BABYLON.Color3(0,0,1);
+    
+
+
+    // Create sphere
+    sphere = new BABYLON.MeshBuilder.CreateSphere("sphere", {diameter:3}, scene);
+    var material = new BABYLON.StandardMaterial(scene);
+    material.alpha = 1;
+    material.diffuseColor = new BABYLON.Color3(1,1,0);
+    sphere.material = material;
+
+    // Display sphere coordinates
+    var textPlane = BABYLON.MeshBuilder.CreatePlane("textPlane",{width:50,height:10,sideOrientation:2},scene);
+    textPlane.setParent(sphere);
+    textPlane.position.y = 7;
+    textPlane.billboardMode = BABYLON.Mesh.BILLBOARDMODE_ALL;
+    var material = new BABYLON.StandardMaterial("textPlaneMaterial", scene);
+    textplaneTexture = new BABYLON.DynamicTexture("dynamic texture", {width:512,height:256}, scene);
+    material.diffuseTexture = textplaneTexture;
+    textPlane.material = material;
+    textplaneTexture.hasAlpha = true;
+    textplaneTexture.drawText("(0, 0, 0)",0,140,"bold 50px monospace","blue","white",true,true);
+    
+
+    // Register a render loop to repeatedly render the scene
+    engine.runRenderLoop(function () { 
+        scene.render();
+    });
+
+    // Watch for browser/canvas resize events
+    window.addEventListener("resize", function () { 
+            engine.resize();
+    });
+
+    // Set initial destination
     vx = 100, vy = 100, vz = -300;
 
-    // initialize camera and scene
-    camera = new THREE.PerspectiveCamera( 40, graphic_Display.offsetWidth/graphic_Display.offsetHeight, 1, 1000 );
-    camera.position.set(400,400,400);
-    camera.lookAt(new THREE.Vector3(0,0,0));
-    scene = new THREE.Scene();
+    // Set transformCo_ordinate
+    transformCo_ordinate = false;
 
-    // create and add point to the scene
-    var geometry = new THREE.SphereGeometry( 5, 32, 32 );
-    var material = new THREE.MeshBasicMaterial( {color: 0xffff00} );
-    sphere = new THREE.Mesh( geometry, material );
-    scene.add( sphere );
-    sphere.position.set(0,0,0);
-
-    // create and axes to the scene
-    //// X axis
-    var material = new THREE.LineBasicMaterial({
-        color: 0x00ff00
-    })
-    var geometry = new THREE.Geometry();
-    geometry.vertices.push(new THREE.Vector3(10000,0,0), new THREE.Vector3(-10000,0,0));
-    Xaxis = new THREE.Line(geometry,material);
-    scene.add(Xaxis);
-
-    //// Y axis
-    var material = new THREE.LineBasicMaterial({
-        color: 0xff0000
-    })
-    var geometry = new THREE.Geometry();
-    geometry.vertices.push(new THREE.Vector3(0,10000,0), new THREE.Vector3(0,-10000,0));
-    Yaxis = new THREE.Line(geometry,material);
-    scene.add(Yaxis);
-
-    //// Z axis
-    var material = new THREE.LineBasicMaterial({
-        color: 0x0000ff
-    })
-    var geometry = new THREE.Geometry();
-    geometry.vertices.push(new THREE.Vector3(0,0,10000), new THREE.Vector3(0,0,-10000));
-    Zaxis = new THREE.Line(geometry,material);
-    scene.add(Zaxis);
-
-    // Create and initialize renderer
-    renderer = new THREE.WebGLRenderer( { antialias: true } );
-    renderer.setPixelRatio( window.devicePixelRatio );
-    renderer.setSize(graphic_Display.offsetWidth,graphic_Display.offsetHeight);
-    graphic_Display.appendChild( renderer.domElement );
-    render();
-
-    // Add orbit controls
-    control = new THREE.OrbitControls( camera, renderer.domElement );
-    control.addEventListener( 'change', render ); 
-    control.screenSpacePanning = false;
-    control.minDistance = 100;
-    control.maxDistance = 1000;
     
-    window.addEventListener("resize", resizeDisplay);
 
-    displayPosition();
-    displayTransformationMatrix();
-}
-function changePosition(newVal)
-{
-    if(!transformCo_ordinate) {
-        sphere.position.set((vx/100)*newVal,(vy/100)*newVal,(vz/100)*newVal);
-    }
-    else{
-        Xaxis.geometry.vertices[0].set(10000,-(vy/100)*newVal,-(vz/100)*newVal);
-        Xaxis.geometry.vertices[1].set(-10000,-(vy/100)*newVal,-(vz/100)*newVal);
-
-        Yaxis.geometry.vertices[0].set(-(vx/100)*newVal,10000,-(vz/100)*newVal);
-        Yaxis.geometry.vertices[1].set(-(vx/100)*newVal,-10000,-(vz/100)*newVal);
-
-        Zaxis.geometry.vertices[0].set(-(vx/100)*newVal,-(vy/100)*newVal,10000);
-        Zaxis.geometry.vertices[1].set(-(vx/100)*newVal,-(vy/100)*newVal,-10000);
-
-        Xaxis.geometry.verticesNeedUpdate = true;
-        Yaxis.geometry.verticesNeedUpdate = true;
-        Zaxis.geometry.verticesNeedUpdate = true;
-        
-    }
-    render();
-    displayPosition();
-}
-
-function setNewDestination()
-{
-    vx = document.getElementById("newX").value;
-    vy = document.getElementById("newY").value;
-    vz = document.getElementById("newZ").value;
-
-    resetPoint();
     displayTransformationMatrix();
     displayPosition();
-    render();
-}
-
-function displayPosition()
-{
-    var info = document.getElementById("point_info");
-    var sliderValue = document.getElementById("slider").getElementsByTagName("input")[0].value;
-    var coordinate_info = "(" + (vx/100)*sliderValue + ", " + (vy/100)*sliderValue + ", " + (vz/100)*sliderValue + ")"; 
-    info.getElementsByTagName("p")[0].innerHTML = coordinate_info;
-}
-
-function render() {
-    renderer.render( scene, camera );
-}
-
-function resetCamera()
-{
-    control.reset();
-}
-
-function transformCoordinate(transform)
-{
-    resetPoint();
-    transformCo_ordinate = transform;
-    displayPosition();
-    render();
-}
-
-function resetPoint()
-{
-    if(transformCo_ordinate)
-    {
-        Xaxis.geometry.vertices[0].set(10000,0,0);
-        Xaxis.geometry.vertices[1].set(-10000,0,0);
-
-        Yaxis.geometry.vertices[0].set(0,10000,0);
-        Yaxis.geometry.vertices[1].set(0,-10000,0);
-
-        Zaxis.geometry.vertices[0].set(0,0,10000);
-        Zaxis.geometry.vertices[1].set(0,0,-10000);
-
-        Xaxis.geometry.verticesNeedUpdate = true;
-        Yaxis.geometry.verticesNeedUpdate = true;
-        Zaxis.geometry.verticesNeedUpdate = true;
-    }
-    else
-    {
-        sphere.position.set(0,0,0);
-    }
-    document.getElementById("slider").getElementsByTagName("input")[0].value = 0;
 }
 
 function displayTransformationMatrix()
@@ -166,10 +87,76 @@ function displayTransformationMatrix()
     MathJax.Hub.Queue(["Typeset", MathJax.Hub, tranMat]);
 }
 
-function resizeDisplay()
+function displayPosition()
 {
-    camera.aspect = graphic_Display.offsetWidth/graphic_Display.offsetHeight
-    camera.updateProjectionMatrix();
-    renderer.setSize(graphic_Display.offsetWidth,graphic_Display.offsetHeight);
-    render();
+    var info = document.getElementById("point_info");
+    var sliderValue = document.getElementById("slider").getElementsByTagName("input")[0].value;
+    var coordinate_info = "(" + (vx/100)*sliderValue + ", " + (vy/100)*sliderValue + ", " + (vz/100)*sliderValue + ")"; 
+    info.getElementsByTagName("p")[0].innerHTML = coordinate_info;
+    
+}
+
+function setNewDestination()
+{
+    vx = document.getElementById("newX").value;
+    vy = document.getElementById("newY").value;
+    vz = document.getElementById("newZ").value;
+    resetPoint();
+    displayTransformationMatrix();
+    displayPosition();
+    Xaxis.dispose();
+}
+
+function changePosition(newVal)
+{
+    if(!transformCo_ordinate) {
+        sphere.position = new BABYLON.Vector3((vx/100)*newVal,(vy/100)*newVal,(vz/100)*newVal);
+    }
+    else{
+        Xaxis =  BABYLON.MeshBuilder.CreateLines("Xaxis",{points:[new BABYLON.Vector3(1000,(vy/100)*newVal,(vz/100)*newVal),new BABYLON.Vector3(-1000,(vy/100)*newVal,(vz/100)*newVal)], instance:Xaxis});
+        Yaxis =  BABYLON.MeshBuilder.CreateLines("Yaxis",{points:[new BABYLON.Vector3((vx/100)*newVal,1000,(vz/100)*newVal),new BABYLON.Vector3((vx/100)*newVal,-1000,(vz/100)*newVal)], instance:Yaxis});
+        Zaxis =  BABYLON.MeshBuilder.CreateLines("Zaxis",{points:[new BABYLON.Vector3((vx/100)*newVal,(vy/100)*newVal,1000),new BABYLON.Vector3((vx/100)*newVal,(vy/100)*newVal,-1000)], instance:Zaxis});
+
+        
+    }
+    updateCoordinates();
+    displayPosition();
+}
+
+function transformCoordinate(transform)
+{
+    resetPoint();
+    transformCo_ordinate = transform;
+
+
+    displayPosition();
+}
+
+function resetPoint()
+{
+    if(transformCo_ordinate)
+    {
+        Xaxis =  BABYLON.MeshBuilder.CreateLines("Xaxis",{points:[new BABYLON.Vector3(1000,0,0),new BABYLON.Vector3(-1000,0,0)],instance:Xaxis});
+        Yaxis =  BABYLON.MeshBuilder.CreateLines("Yaxis",{points:[new BABYLON.Vector3(0,1000,0),new BABYLON.Vector3(0,-1000,0)],instance:Yaxis});
+        Zaxis =  BABYLON.MeshBuilder.CreateLines("Zaxis",{points:[new BABYLON.Vector3(0,0,1000),new BABYLON.Vector3(0,0,-1000)], instance:Zaxis});
+    }
+    else
+    {
+        sphere.position = new BABYLON.Vector3(0,0,0);
+    }
+    document.getElementById("slider").getElementsByTagName("input")[0].value = 0;
+    updateCoordinates();
+    
+}
+
+function updateCoordinates()
+{
+    var sliderValue = document.getElementById("slider").getElementsByTagName("input")[0].value;
+    var coordinate_info = "(" + (vx/100)*sliderValue + ", " + (vy/100)*sliderValue + ", " + (vz/100)*sliderValue + ")"; 
+    textplaneTexture.drawText(coordinate_info,0,140,"bold 50px monospace","blue","white",true,true);
+}
+function resetCamera()
+{
+    camera.setPosition(new BABYLON.Vector3(100,100,100));
+   // camera.alpha = camera.beta = Math.PI / 2;
 }

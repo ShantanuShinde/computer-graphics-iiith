@@ -1,53 +1,93 @@
 h1{
     
     font-family: 'Courier New', Courier, monospace;
-    color: cyan;
     padding-left: .5em;
     margin-bottom: 0em;
-    font-size: 4vw;
+    font-size: 3.2vw;
 }
-h5 {
-    font-size:3vw;
+#coordinate_transform {
+    margin-right:10px;
 }
-small{
-    color: gold;
+@media screen and (min-width:830px){
+    h5 {
+        font-size: 18px;
+    }
+    #point_display {
+        height: 600px;
+    }
+    #point_info {
+        font-size: 15px;
+    }
+    #coordinate_transform {
+        height:15px;
+        width:15px;
+    }
 }
+@media screen  and (max-width:830px){
+    h5 {
+        font-size: 13px;
+    }
+    #point_display {
+        height: 300px;
+    }
+    #point_info {
+        font-size: 10px;
+    }
+    #coordinate_transform {
+        height:10px;
+        width:10px;
+    }
+}
+@media screen and (max-width:400px)
+{
+    #point_display {
+        width:100%;
+    }
+    #point_info {
+        width:100%;
+    }
+}
+@media screen and (min-width:400px)
+{
+    #point_display {
+        width:70%;
+    }
+    #point_info {
+        width:20%;
+    }
+}
+
 #heading {
     top:0;
     position:sticky;
-    background-color: darkmagenta;
+    background-color: blue;
     z-index: 1;
     box-shadow: 0 0.250em 0.500em 0 rgba(0, 0, 0, 0.2), 0 0.375em 1.250em 0 rgba(0, 0, 0, 0.19);
     border-radius:0 0 1em 1em;
 }
-html,body{
-    height: 100%;
-    background-color: greenyellow;
+body{
+
+    background:lightblue;
 }
 #point{
-    height:80%;
     padding-top: 0.5em;
     padding-bottom: .5em;
-    font-size:1.6vw;
+    display: inline-block;
 }
 #control {
     
-    background-color: chocolate;
-    /*overflow:auto;*/
+    background-color: mediumturquoise;
     display: inline-block;
 }
 #point > div {
-    height:100%;
     margin:0em 0.5em;
 }
 #point_display {
-    background-color: #000000;
+    
     overflow: hidden;
-    height:100%;
-    width:70%;
 }
 #point_info{
-    width:20%;
+    
     margin-left: .5em;
 }
 #slider {
@@ -68,4 +108,8 @@ html,body{
 #reset_camera{
     margin-top: .5em; 
     margin-right:.5em;
+}
+#renderCanvas {
+    height:100%;
+    width:100%;
 }
