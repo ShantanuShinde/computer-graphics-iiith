@@ -104,7 +104,7 @@ function setNewDestination()
     resetPoint();
     displayTransformationMatrix();
     displayPosition();
-    Xaxis.dispose();
+   
 }
 
 function changePosition(newVal)
