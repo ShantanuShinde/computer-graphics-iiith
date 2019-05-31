@@ -28,6 +28,10 @@
             </div>
             <div id="point_info" class="col-md-3"><div class="row">
                 <div class="col-md-12">
+                    <h5>Manual</h5>
+                    <div id="manual"><p></p><p></p><p></p></div>
+                </div>
+                <div class="col-md-12">
                     <h5>Current point position:</h5>
                     <p></p>
                 </div>
@@ -45,13 +49,18 @@
                         <input type="range" value="0" min="0" max="100" oninput="changePosition(this.value)" onchange="changePosition(this.value)"/>
                     </div>
                         
-                    <div class="col-md-12"><span >X: </span><input id="newX" type="number" step="0.0001" value = 100></div>
-                    <div class="col-md-12"><span >Y: </span><input id="newY" type="number" step="0.0001" value = 100></div>
-                    <div class="col-md-12"><span >Z: </span><input id="newZ" type="number" step="0.0001" value = -300></div>
+                    <div class="col-md-12"><span >X: </span><input id="destX" type="number" step="0.0001" value = 100></div>
+                    <div class="col-md-12"><span >Y: </span><input id="destY" type="number" step="0.0001" value = 100></div>
+                    <div class="col-md-12"><span >Z: </span><input id="destZ" type="number" step="0.0001" value = -300></div>
                         
                     <div class="col-md-12"><button id="change_destination" onclick="setNewDestination()" >Set New Destination</button></div>
+
+                    <div class="col-md-12"><span >X: </span><input id="strtX" type="number" step="0.0001" value = 0></div>
+                    <div class="col-md-12"><span >Y: </span><input id="strtY" type="number" step="0.0001" value = 0></div>
+                    <div class="col-md-12"><span >Z: </span><input id="strtZ" type="number" step="0.0001" value = 0></div>
+
+                    <div class="col-md-12"><button id="change_starting_point" onclick="changeStartingPoint()">Set Starting Point</button></div>
                     <div class="col-md-12"><button id = "reset_camera" onclick="resetCamera()">Reset Camera</button></div>
-                    
                 </div></div>
             </div></div>
             
