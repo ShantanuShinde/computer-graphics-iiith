@@ -6,6 +6,7 @@ var Xaxis, Yaxis, Zaxis;
 var vx,vy,vz, px, py, pz;;
 var transformCo_ordinate;
 var textplaneTexture; 
+var manual, manualIndex = 0;
 
 init();
 
@@ -74,16 +75,21 @@ function init(){
     transformCo_ordinate = false;
 
     // Add text to the manual
-    var manual = document.getElementById("manual").getElementsByTagName("p");
-    manual[0].innerHTML = "<b><u>Translation</u></b><br/><i><u>Introduction to the interface :</u></i><br/>This experiment is to demonstrate how translation transformation works on point and coordinate system. The point and coordinate system is displayed in the top part. The point starts at the origin. The current coordinates of the point are displayed above the point as well as below. Below the coordinates is the checkbox to select whether to move the point or the coordinate system. Below it is the transformation matrix applied for translation. Below it is the slider to move the point or the coordinate system to the current destination. Than there are input for X, Y, Z. The <b>Set New Destination</b> button sets the X,Y,Z values as the current destination. The <b>Set Starting Point</b> changes the starting position of the point to the value of X, Y, Z. The <b>Reset Camera</b> button resets the camera of the display. ";
-
+    manual = document.getElementById("manual").getElementsByTagName("p");
+    manual[0].innerHTML = "<b><u>Translation</u></b><br><i><u>Introduction to the interface</u>:</i><br> <a href='#' onclick='manualForward()'> Next</a><br><br>This experiment is to demonstrate how translation transformation works on point and coordinate system. The point and coordinate system is displayed in the top part. The point starts at the origin. The current coordinates of the point are displayed above the point as well as below. Below the coordinates is the checkbox to select whether to move the point or the coordinate system. Below it is the transformation matrix applied for translation. Below it is the slider to move the point or the coordinate system to the current destination. Than there are input for X, Y, Z. The <b>Set New Destination</b> button sets the X,Y,Z values as the current destination. Below it are another X,Y,Z values that can be editted. The <b>Set Starting Point</b> changes the starting position of the point to the value of these X, Y, Z. The <b>Reset Camera</b> button resets the camera of the display.<br> <br> <a href='#' onclick='manualForward()'> Next</a>";
+    manual[1].innerHTML = "<i><u>Set Up</u>:</i><br> <a href='#' onclick='manualBackward()'> Previous</a> | <a href='#' onclick='manualForward()'>Next</a><br><br>The experiment starts with the point at the origin and the initial destination set to (100,100,-300). Translation transformation is applied to the point. This translation is animated. The slider can be dragged forward and backward to make the point move towards and away from the destination in the animation respectively. The destination of the point can be editted by typing in the coordinates in the first set of X,Y,Z and clicking the <b>Set New Destination</b> button.Starting point of the point can also be changed by putting in the new coordinates in the second set of X,Y,Z and clicking the <b>Set Starting Point</b> button. The point moves in 3D space and the camera can be moved by clicking and dragging in the display area to rotate and scrolling the mourse wheel in that area to change the distance. To reset camera back to deafult view, click the <b>Reset Camera</b> button.<br><br> <a href='#' onclick='manualBackward()'> Previous</a> | <a href='#' onclick='manualForward'>Next</a>";
+    manual[2].innerHTML = "<i><u>Vector Addition vs Matrix Product Form</u>:</i><br> <a href='#' onclick='manualBackward()'> Previous</a> | <a href='#' onclick='manualForward()'>Next</a><br><br>Translation can be represented in two ways: -<br> 1.Vector Addition Form: Trnaslation of (tx,ty,tz) units can be represented as vector addition of the units to the position of the point to which the translation is applied.<br>2.Matrix Product Form: This form is used in the experiment to represent translation. In this, translation of (tx,ty,tz) units on a point (px,py,pz) can be represented as the matrix multiplication of the Transformation matrix: <br><br>    $$\\begin{bmatrix} 1 & 0 & 0 & tx\\\\ 0 & 1 & 0 & ty\\\\ 0 & 0 & 1 & tz\\\\ 0 & 0 & 0 & 1 \\end{bmatrix}$$ <br><br>and the vector of the point: <br/<br>    $$\\begin{bmatrix} px \\\\ py \\\\ pz \\\\ 1 \\end{bmatrix}$$ <br/<br> In the experiment, the transformation matrix is displayed for the given starting point and destination.<br><br> <a href='#' onclick='manualBackward()'> Previous</a> | <a href='#' onclick='manualForward()'>Next</a>";
+    manual[3].innerHTML = "<i><u>Interpreting Transformations</u>: </i><br> <a href='#' onclick='manualBackward()'> Previous</a><br><br>Any transformation can be interpreted either as a modification of a point in the co-ordinate system or the modification of the co-ordinate system itself.Switch between the two interpretations at the point using the Transform Co-ordinate Systems checkbox.<br><br> <a href='#' onclick='manualBackward()'>Previous</a>"
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, manual[2]]);
+    manual[1].hidden = manual[2].hidden = true;
+    
     displayTransformationMatrix();
     displayPosition();
 }
 
 function displayTransformationMatrix()
 {
-    var matrix = "$$\\begin{bmatrix} 1 & 0 & 0 & " + vx + "\\\\ 0 & 1 & 0 & " + vy + "\\\\ 0 & 0 & 1 & " + vz + "\\\\ 0 & 0 & 0 & 1 \\end{bmatrix}$$"
+    var matrix = "$$\\begin{bmatrix} 1 & 0 & 0 & " + (vx-px) + "\\\\ 0 & 1 & 0 & " + (vy-py) + "\\\\ 0 & 0 & 1 & " + (vz-pz) + "\\\\ 0 & 0 & 0 & 1 \\end{bmatrix}$$"
     var tranMat = document.getElementById("transformMatrix");
     tranMat.innerHTML = matrix;
 
@@ -95,7 +101,7 @@ function displayPosition()
     var info = document.getElementById("point_info");
     var sliderValue = document.getElementById("slider").getElementsByTagName("input")[0].value;
     var coordinate_info = "(" + (((vx-px)/100)*sliderValue + px) + "," + (((vy-py)/100)*sliderValue + py) + "," + (((vz-pz)/100)*sliderValue + pz) + ")"; 
-    info.getElementsByTagName("p")[3].innerHTML = coordinate_info;
+    info.getElementsByTagName("p")[4].innerHTML = coordinate_info;
     
 }
 
@@ -167,4 +173,18 @@ function changeStartingPoint()
     py = parseFloat(document.getElementById("strtY").value);
     pz = parseFloat(document.getElementById("strtZ").value);
     resetPoint();
+}
+
+function manualBackward()
+{
+    manual[manualIndex].hidden = true;
+    manualIndex = (manualIndex-1)%4;
+    manual[manualIndex].hidden = false;
+}
+
+function manualForward()
+{
+    manual[manualIndex].hidden = true;
+    manualIndex = (manualIndex+1)%4;
+    manual[manualIndex].hidden = false;
 }

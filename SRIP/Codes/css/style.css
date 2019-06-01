@@ -23,7 +23,7 @@ h1{
         width:15px;
     }
     #manual {
-        height: 100px;
+        height: 150px;
     }
 }
 @media screen  and (max-width:830px){
@@ -127,4 +127,15 @@ body{
 #manual {
     border: 1px solid #000000;
     overflow:auto;
+}
+a:link{
+    color:blue;
+}
+a:hover {
+    color:green;
+    text-decoration-line: underline;
+    text-decoration-color: green;
+}
+a {
+    margin-left: 0.2em;
 }
