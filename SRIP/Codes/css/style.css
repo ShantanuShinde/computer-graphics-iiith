@@ -8,7 +8,7 @@ h1{
 #coordinate_transform {
     margin-right:10px;
 }
-@media screen and (min-width:830px){
+@media screen and (min-width:840px){
     h5 {
         font-size: 18px;
     }
@@ -26,7 +26,7 @@ h1{
         height: 150px;
     }
 }
-@media screen  and (max-width:830px){
+@media screen  and (max-width:840px){
     h5 {
         font-size: 13px;
     }
@@ -44,7 +44,7 @@ h1{
         height: 70px;
     }
 }
-@media screen and (max-width:750px)
+@media screen and (max-width:768px)
 {
     #point_display {
         width:100%;
@@ -53,7 +53,7 @@ h1{
         width:100%;
     }
 }
-@media screen and (min-width:750px)
+@media screen and (min-width:768px)
 {
     #point_display {
         width:70%;
@@ -81,7 +81,6 @@ body{
     display: inline-block;
 }
 #control {
-    
     background-color: mediumturquoise;
     display: inline-block;
 }
@@ -138,4 +137,8 @@ a:hover {
 }
 a {
     margin-left: 0.2em;
+}
+
+input[type="number"] {
+    margin-top:0.5em;
 }

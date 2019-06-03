@@ -43,16 +43,16 @@ function init(){
     sphere.material = material;
 
     // Display sphere coordinates
-    var textPlane = BABYLON.MeshBuilder.CreatePlane("textPlane",{width:150,height:20,sideOrientation:2},scene);
+    var textPlane = BABYLON.MeshBuilder.CreatePlane("textPlane",{width:170,height:30,sideOrientation:2},scene);
     textPlane.setParent(sphere);
     textPlane.position.y = 20;
     textPlane.billboardMode = BABYLON.Mesh.BILLBOARDMODE_ALL;
     var material = new BABYLON.StandardMaterial("textPlaneMaterial", scene);
-    textplaneTexture = new BABYLON.DynamicTexture("dynamic texture", {width:512,height:256}, scene);
+    textplaneTexture = new BABYLON.DynamicTexture("dynamic texture", {width:550,height:256}, scene);
     material.diffuseTexture = textplaneTexture;
     textPlane.material = material;
     textplaneTexture.hasAlpha = true;
-    textplaneTexture.drawText("(0,0,0)",0,140,"bold 55px monospace","blue","white",true,true);
+    textplaneTexture.drawText("(0,0,0)",0,140,"bold 40px monospace","blue","white",true,true);
     
 
     // Register a render loop to repeatedly render the scene
@@ -66,10 +66,10 @@ function init(){
     });
 
     // Set initial destination
-    vx = 100, vy = 100, vz = -300;
+    vx = 100.00, vy = 100.00, vz = -300.00;
 
     // Set initial starting point
-    px = 0, py = 0, pz = 0;
+    px = 0.00, py = 0.00, pz = 0.00;
 
     // Set transformCo_ordinate
     transformCo_ordinate = false;
@@ -81,7 +81,7 @@ function init(){
     manual[2].innerHTML = "<i><u>Vector Addition vs Matrix Product Form</u>:</i><br> <a href='#' onclick='manualBackward()'> Previous</a> | <a href='#' onclick='manualForward()'>Next</a><br><br>Translation can be represented in two ways: -<br> 1.Vector Addition Form: Trnaslation of (tx,ty,tz) units can be represented as vector addition of the units to the position of the point to which the translation is applied.<br>2.Matrix Product Form: This form is used in the experiment to represent translation. In this, translation of (tx,ty,tz) units on a point (px,py,pz) can be represented as the matrix multiplication of the Transformation matrix: <br><br>    $$\\begin{bmatrix} 1 & 0 & 0 & tx\\\\ 0 & 1 & 0 & ty\\\\ 0 & 0 & 1 & tz\\\\ 0 & 0 & 0 & 1 \\end{bmatrix}$$ <br><br>and the vector of the point: <br/<br>    $$\\begin{bmatrix} px \\\\ py \\\\ pz \\\\ 1 \\end{bmatrix}$$ <br/<br> In the experiment, the transformation matrix is displayed for the given starting point and destination.<br><br> <a href='#' onclick='manualBackward()'> Previous</a> | <a href='#' onclick='manualForward()'>Next</a>";
     manual[3].innerHTML = "<i><u>Interpreting Transformations</u>: </i><br> <a href='#' onclick='manualBackward()'> Previous</a><br><br>Any transformation can be interpreted either as a modification of a point in the co-ordinate system or the modification of the co-ordinate system itself.Switch between the two interpretations at the point using the Transform Co-ordinate Systems checkbox.<br><br> <a href='#' onclick='manualBackward()'>Previous</a>"
     MathJax.Hub.Queue(["Typeset", MathJax.Hub, manual[2]]);
-    manual[1].hidden = manual[2].hidden = true;
+    manual[1].hidden = manual[2].hidden = manual[3] = true;
     
     displayTransformationMatrix();
     displayPosition();
@@ -89,7 +89,7 @@ function init(){
 
 function displayTransformationMatrix()
 {
-    var matrix = "$$\\begin{bmatrix} 1 & 0 & 0 & " + (vx-px) + "\\\\ 0 & 1 & 0 & " + (vy-py) + "\\\\ 0 & 0 & 1 & " + (vz-pz) + "\\\\ 0 & 0 & 0 & 1 \\end{bmatrix}$$"
+    var matrix = "$$\\begin{bmatrix} 1 & 0 & 0 & " + (vx-px).toFixed(2) + "\\\\ 0 & 1 & 0 & " + (vy-py).toFixed(2) + "\\\\ 0 & 0 & 1 & " + (vz-pz).toFixed(2) + "\\\\ 0 & 0 & 0 & 1 \\end{bmatrix}$$"
     var tranMat = document.getElementById("transformMatrix");
     tranMat.innerHTML = matrix;
 
@@ -100,9 +100,8 @@ function displayPosition()
 {
     var info = document.getElementById("point_info");
     var sliderValue = document.getElementById("slider").getElementsByTagName("input")[0].value;
-    var coordinate_info = "(" + (((vx-px)/100)*sliderValue + px) + "," + (((vy-py)/100)*sliderValue + py) + "," + (((vz-pz)/100)*sliderValue + pz) + ")"; 
+    var coordinate_info = "(" + (((vx-px)/100)*sliderValue + px).toFixed(2) + "," + (((vy-py)/100)*sliderValue + py).toFixed(2) + "," + (((vz-pz)/100)*sliderValue + pz).toFixed(2) + ")"; 
     info.getElementsByTagName("p")[4].innerHTML = coordinate_info;
-    
 }
 
 function setNewDestination()
@@ -133,7 +132,7 @@ function changePosition(newVal)
 
 function transformCoordinate(transform)
 {
-    resetPoint();
+    resetPoint();                                                        
     transformCo_ordinate = transform;
 
 
@@ -159,8 +158,8 @@ function resetPoint()
 function updateCoordinates()
 {
     var sliderValue = document.getElementById("slider").getElementsByTagName("input")[0].value;
-    var coordinate_info = "(" + (((vx-px)/100)*sliderValue + px) + "," + (((vy-py)/100)*sliderValue + py) + "," + (((vz-pz)/100)*sliderValue + pz) + ")"; 
-    textplaneTexture.drawText(coordinate_info,0,140,"bold 55px monospace","blue","white",true,true);
+    var coordinate_info = "(" + (((vx-px)/100)*sliderValue + px).toFixed(2) + "," + (((vy-py)/100)*sliderValue + py).toFixed(2) + "," + (((vz-pz)/100)*sliderValue + pz).toFixed(2) + ")"; 
+    textplaneTexture.drawText(coordinate_info,0,140,"bold 40px monospace","blue","white",true,true);
 }
 function resetCamera()
 {
@@ -178,7 +177,7 @@ function changeStartingPoint()
 function manualBackward()
 {
     manual[manualIndex].hidden = true;
-    manualIndex = (manualIndex-1)%4;
+    manualIndex = (manualIndex-1)%4;                                                                                                                    
     manual[manualIndex].hidden = false;
 }
 
@@ -187,4 +186,4 @@ function manualForward()
     manual[manualIndex].hidden = true;
     manualIndex = (manualIndex+1)%4;
     manual[manualIndex].hidden = false;
-}
+}                                           
