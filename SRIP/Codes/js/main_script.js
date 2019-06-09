@@ -18,7 +18,6 @@ function init(){
     // Create camera
     camera = new BABYLON.ArcRotateCamera("Camera", Math.PI / 2, Math.PI / 2, 100, new BABYLON.Vector3(0,0,0), scene);
     camera.setPosition(new BABYLON.Vector3(300,300,300))
-    
     camera.attachControl(canvas,true);
     
     // Add lights to the scene
@@ -33,7 +32,63 @@ function init(){
     Yaxis.color = new BABYLON.Color3(0,1,0);
     Zaxis.color = new BABYLON.Color3(0,0,1);
     
+    // Create axes labels
+    var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("myUI");
+    var xAxis = new BABYLON.GUI.TextBlock();
+    xAxis.text = "____";
+    xAxis.color = "red";
+    xAxis.fontSize = 24;
+    xAxis.background = "red";
+    xAxis.paddingRight = 80;
+    xAxis.textHorizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT;
+    xAxis.textVerticalAlignment  = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
+    advancedTexture.addControl(xAxis);
+    var yAxis = new BABYLON.GUI.TextBlock();
+    yAxis.text = "____";
+    yAxis.color = "green";
+    yAxis.fontSize = 24;
+    yAxis.paddingRight = 80;
+    yAxis.textHorizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT;
+    yAxis.textVerticalAlignment  = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
+    yAxis.paddingTop = 30;
+    advancedTexture.addControl(yAxis);
+    var zAxis = new BABYLON.GUI.TextBlock();
+    zAxis.text = "____";
+    zAxis.color = "blue";
+    zAxis.fontSize = 24;
+    zAxis.paddingRight = 80;
+    zAxis.textHorizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT;
+    zAxis.textVerticalAlignment  = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
+    zAxis.paddingTop = 60;
+    advancedTexture.addControl(zAxis);
 
+    var xAxisName = new BABYLON.GUI.TextBlock();
+    xAxisName.color = "yellow";
+    xAxisName.fontSize = 18;
+    xAxisName.text = "X axis";
+    xAxisName.textHorizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT;
+    xAxisName.textVerticalAlignment  = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
+    xAxisName.paddingTop = 15;
+    xAxisName.paddingRight = 20;
+    advancedTexture.addControl(xAxisName);
+    var yAxisName = new BABYLON.GUI.TextBlock();
+    yAxisName.color = "yellow";
+    yAxisName.fontSize = 18;
+    yAxisName.text = "Y axis";
+    yAxisName.textHorizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT;
+    yAxisName.textVerticalAlignment  = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
+    yAxisName.paddingTop = 45;
+    yAxisName.paddingRight = 20;
+    advancedTexture.addControl(yAxisName);
+    var zAxisName = new BABYLON.GUI.TextBlock();
+    zAxisName.color = "yellow";
+    zAxisName.fontSize = 18;
+    zAxisName.text = "Z axis";
+    zAxisName.textHorizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT;
+    zAxisName.textVerticalAlignment  = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
+    zAxisName.paddingTop = 75;
+    zAxisName.paddingRight = 20;
+    advancedTexture.addControl(zAxisName);
 
     // Create sphere
     sphere = new BABYLON.MeshBuilder.CreateSphere("sphere", {diameter:5}, scene);
@@ -53,6 +108,7 @@ function init(){
     textPlane.material = material;
     textplaneTexture.hasAlpha = true;
     textplaneTexture.drawText("(0,0,0)",0,140,"bold 40px monospace","blue","white",true,true);
+    
     
 
     // Register a render loop to repeatedly render the scene
@@ -112,14 +168,12 @@ function setNewDestination()
     resetPoint();
     displayTransformationMatrix();
     displayPosition();
-   
 }
 
 function changePosition(newVal)
 {
     if(!transformCo_ordinate) {
         sphere.position = new BABYLON.Vector3(((vx-px)/100)*newVal + px,((vy-py)/100)*newVal + py,((vz-pz)/100)*newVal + pz);
-        console.log(sphere.position);
     }
     else{
         Xaxis =  BABYLON.MeshBuilder.CreateLines("Xaxis",{points:[new BABYLON.Vector3(1000,(vy/100)*newVal,(vz/100)*newVal),new BABYLON.Vector3(-1000,(vy/100)*newVal,(vz/100)*newVal)], instance:Xaxis});
@@ -134,8 +188,6 @@ function transformCoordinate(transform)
 {
     resetPoint();                                                        
     transformCo_ordinate = transform;
-
-
     displayPosition();
 }
 
