@@ -259,9 +259,9 @@
          document.getElementById("destY").value = vy;
          document.getElementById("destZ").value = vz
      } else {
-         vx = tempPX;
-         vy = tempPY;
-         vz = tempPZ;
+         vx = tempVX;
+         vy = tempVY;
+         vz = tempVZ;
      }
      resetPoint();
      displayTransformationMatrix();
