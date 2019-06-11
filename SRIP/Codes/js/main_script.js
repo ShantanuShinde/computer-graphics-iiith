@@ -22,7 +22,13 @@
 
      // Add lights to the scene
      var light1 = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(1, 1, 0), scene);
-     var light2 = new BABYLON.PointLight("light2", new BABYLON.Vector3(0, 1, -1), scene);
+     light1.specular = new BABYLON.Color3(0, 0, 0);
+     var light2 = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 1, 1), scene);
+     light2.specular = new BABYLON.Color3(0, 0, 0);
+     var light3 = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(1, 0, 1), scene);
+     light3.specular = new BABYLON.Color3(0, 0, 0);
+     var light4 = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(-1, -1, 0), scene);
+     light4.specular = new BABYLON.Color3(0, 0, 0);
 
      // Create axes
      Xaxis = BABYLON.MeshBuilder.CreateLines("Xaxis", {
