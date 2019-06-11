@@ -6,6 +6,10 @@ h1 {
     font-size: 3.2vw;
 }
 
+div {
+    align-content: center;
+}
+
 #coordinate_transform {
     margin-right: 10px;
 }
