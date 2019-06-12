@@ -6,11 +6,10 @@ h1 {
     font-size: 3.2vw;
 }
 
-div {
-    align-content: center;
-}
-
-#coordinate_transform {
+#coordinate_transform,
+#xyGrid,
+#yzGrid,
+#xzGrid {
     margin-right: 10px;
 }
 
@@ -27,7 +26,10 @@ div {
         font-size: 15px;
     }
 
-    #coordinate_transform {
+    #coordinate_transform,
+    #xyGrid,
+    #yzGrid,
+    #xzGrid {
         height: 15px;
         width: 15px;
     }
@@ -50,7 +52,10 @@ div {
         font-size: 10px;
     }
 
-    #coordinate_transform {
+    #coordinate_transform,
+    #xyGrid,
+    #yzGrid,
+    #xzGrid {
         height: 10px;
         width: 10px;
     }
@@ -103,6 +108,8 @@ body {
 #control {
     background-color: mediumturquoise;
     display: inline-block;
+    text-align: center;
+    border: 2px solid #000000;
 }
 
 #point>div {
@@ -110,12 +117,10 @@ body {
 }
 
 #point_display {
-
     overflow: hidden;
 }
 
 #point_info {
-
     margin-left: 0.5em;
 }
 
@@ -132,7 +137,10 @@ body {
     margin-right: 0.5em;
 }
 
-#change_destination {
+#change_destination,
+#setXY,
+#setYZ,
+#setXZ {
     margin-top: 0.5em;
     margin-right: 0.5em;
     margin-bottom: 0.5em;
@@ -174,4 +182,8 @@ a {
 
 input[type="number"] {
     margin-top: 0.5em;
+}
+
+#renderCanvas {
+    border: 2px solid #000000;
 }

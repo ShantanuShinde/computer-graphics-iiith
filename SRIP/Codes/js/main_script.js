@@ -7,7 +7,7 @@
  var transformCo_ordinate;
  var textplaneTexture;
  var manual, manualIndex = 0;
-
+ var xy, yz, xz;
  init();
 
  function init() {
@@ -31,108 +31,14 @@
      light4.specular = new BABYLON.Color3(0, 0, 0);
 
      // Create axes
-     Xaxis = BABYLON.MeshBuilder.CreateLines("Xaxis", {
-         points: [new BABYLON.Vector3(1000, 0, 0), new BABYLON.Vector3(-1000, 0, 0)],
-         updatable: true
-     }, scene);
-     Yaxis = BABYLON.MeshBuilder.CreateLines("Yaxis", {
-         points: [new BABYLON.Vector3(0, 1000, 0), new BABYLON.Vector3(0, -1000, 0)],
-         updatable: true
-     }, scene);
-     Zaxis = BABYLON.MeshBuilder.CreateLines("Zaxis", {
-         points: [new BABYLON.Vector3(0, 0, 1000), new BABYLON.Vector3(0, 0, -1000)],
-         updatable: true
-     }, scene);
-     Xaxis.color = new BABYLON.Color3(1, 0, 0);
-     Yaxis.color = new BABYLON.Color3(0, 1, 0);
-     Zaxis.color = new BABYLON.Color3(0, 0, 1);
-
+     createAxes();
      // Create axes labels
-     var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("myUI");
-     var xAxis = new BABYLON.GUI.TextBlock();
-     xAxis.text = "____";
-     xAxis.color = "red";
-     xAxis.fontSize = 24;
-     xAxis.background = "red";
-     xAxis.paddingRight = 80;
-     xAxis.textHorizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT;
-     xAxis.textVerticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
-     advancedTexture.addControl(xAxis);
-     var yAxis = new BABYLON.GUI.TextBlock();
-     yAxis.text = "____";
-     yAxis.color = "green";
-     yAxis.fontSize = 24;
-     yAxis.paddingRight = 80;
-     yAxis.textHorizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT;
-     yAxis.textVerticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
-     yAxis.paddingTop = 30;
-     advancedTexture.addControl(yAxis);
-     var zAxis = new BABYLON.GUI.TextBlock();
-     zAxis.text = "____";
-     zAxis.color = "blue";
-     zAxis.fontSize = 24;
-     zAxis.paddingRight = 80;
-     zAxis.textHorizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT;
-     zAxis.textVerticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
-     zAxis.paddingTop = 60;
-     advancedTexture.addControl(zAxis);
-
-     var xAxisName = new BABYLON.GUI.TextBlock();
-     xAxisName.color = "yellow";
-     xAxisName.fontSize = 18;
-     xAxisName.text = "X axis";
-     xAxisName.textHorizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT;
-     xAxisName.textVerticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
-     xAxisName.paddingTop = 15;
-     xAxisName.paddingRight = 20;
-     advancedTexture.addControl(xAxisName);
-     var yAxisName = new BABYLON.GUI.TextBlock();
-     yAxisName.color = "yellow";
-     yAxisName.fontSize = 18;
-     yAxisName.text = "Y axis";
-     yAxisName.textHorizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT;
-     yAxisName.textVerticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
-     yAxisName.paddingTop = 45;
-     yAxisName.paddingRight = 20;
-     advancedTexture.addControl(yAxisName);
-     var zAxisName = new BABYLON.GUI.TextBlock();
-     zAxisName.color = "yellow";
-     zAxisName.fontSize = 18;
-     zAxisName.text = "Z axis";
-     zAxisName.textHorizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT;
-     zAxisName.textVerticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
-     zAxisName.paddingTop = 75;
-     zAxisName.paddingRight = 20;
-     advancedTexture.addControl(zAxisName);
+     createAxesLabels();
 
      // Create sphere
-     sphere = new BABYLON.MeshBuilder.CreateSphere("sphere", {
-         diameter: 5
-     }, scene);
-     var material = new BABYLON.StandardMaterial(scene);
-     material.alpha = 1;
-     material.diffuseColor = new BABYLON.Color3(1, 1, 0);
-     sphere.material = material;
+     createSphere();
 
-     // Display sphere coordinates
-     var textPlane = BABYLON.MeshBuilder.CreatePlane("textPlane", {
-         width: 170,
-         height: 30,
-         sideOrientation: 2
-     }, scene);
-     textPlane.setParent(sphere);
-     textPlane.position.y = 20;
-     textPlane.billboardMode = BABYLON.Mesh.BILLBOARDMODE_ALL;
-     var material = new BABYLON.StandardMaterial("textPlaneMaterial", scene);
-     textplaneTexture = new BABYLON.DynamicTexture("dynamic texture", {
-         width: 550,
-         height: 256
-     }, scene);
-     material.diffuseTexture = textplaneTexture;
-     textPlane.material = material;
-     textplaneTexture.hasAlpha = true;
-     textplaneTexture.drawText("(0,0,0)", 0, 140, "bold 40px monospace", "blue", "white", true, true);
-
+     createGrid();
      // Register a render loop to repeatedly render the scene
      engine.runRenderLoop(function () {
          scene.render();
@@ -285,4 +191,177 @@
      manual[manualIndex].hidden = true;
      manualIndex = (manualIndex + 1) % 4;
      manual[manualIndex].hidden = false;
+ }
+
+ function createAxesLabels() {
+     var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("myUI");
+     var xAxis = new BABYLON.GUI.TextBlock();
+     xAxis.text = "____";
+     xAxis.color = "red";
+     xAxis.fontSize = 24;
+     xAxis.background = "red";
+     xAxis.paddingRight = 80;
+     xAxis.textHorizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT;
+     xAxis.textVerticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
+     advancedTexture.addControl(xAxis);
+     var yAxis = new BABYLON.GUI.TextBlock();
+     yAxis.text = "____";
+     yAxis.color = "green";
+     yAxis.fontSize = 24;
+     yAxis.paddingRight = 80;
+     yAxis.textHorizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT;
+     yAxis.textVerticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
+     yAxis.paddingTop = 30;
+     advancedTexture.addControl(yAxis);
+     var zAxis = new BABYLON.GUI.TextBlock();
+     zAxis.text = "____";
+     zAxis.color = "blue";
+     zAxis.fontSize = 24;
+     zAxis.paddingRight = 80;
+     zAxis.textHorizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT;
+     zAxis.textVerticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
+     zAxis.paddingTop = 60;
+     advancedTexture.addControl(zAxis);
+
+     var xAxisName = new BABYLON.GUI.TextBlock();
+     xAxisName.color = "yellow";
+     xAxisName.fontSize = 18;
+     xAxisName.text = "X axis";
+     xAxisName.textHorizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT;
+     xAxisName.textVerticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
+     xAxisName.paddingTop = 15;
+     xAxisName.paddingRight = 20;
+     advancedTexture.addControl(xAxisName);
+     var yAxisName = new BABYLON.GUI.TextBlock();
+     yAxisName.color = "yellow";
+     yAxisName.fontSize = 18;
+     yAxisName.text = "Y axis";
+     yAxisName.textHorizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT;
+     yAxisName.textVerticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
+     yAxisName.paddingTop = 45;
+     yAxisName.paddingRight = 20;
+     advancedTexture.addControl(yAxisName);
+     var zAxisName = new BABYLON.GUI.TextBlock();
+     zAxisName.color = "yellow";
+     zAxisName.fontSize = 18;
+     zAxisName.text = "Z axis";
+     zAxisName.textHorizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT;
+     zAxisName.textVerticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
+     zAxisName.paddingTop = 75;
+     zAxisName.paddingRight = 20;
+     advancedTexture.addControl(zAxisName);
+ }
+
+ function createAxes() {
+     Xaxis = BABYLON.MeshBuilder.CreateLines("Xaxis", {
+         points: [new BABYLON.Vector3(1000, 0, 0), new BABYLON.Vector3(-1000, 0, 0)],
+         updatable: true
+     }, scene);
+     Yaxis = BABYLON.MeshBuilder.CreateLines("Yaxis", {
+         points: [new BABYLON.Vector3(0, 1000, 0), new BABYLON.Vector3(0, -1000, 0)],
+         updatable: true
+     }, scene);
+     Zaxis = BABYLON.MeshBuilder.CreateLines("Zaxis", {
+         points: [new BABYLON.Vector3(0, 0, 1000), new BABYLON.Vector3(0, 0, -1000)],
+         updatable: true
+     }, scene);
+     Xaxis.color = new BABYLON.Color3(1, 0, 0);
+     Yaxis.color = new BABYLON.Color3(0, 1, 0);
+     Zaxis.color = new BABYLON.Color3(0, 0, 1);
+ }
+
+ function createSphere() {
+     sphere = new BABYLON.MeshBuilder.CreateSphere("sphere", {
+         diameter: 5
+     }, scene);
+     var material = new BABYLON.StandardMaterial(scene);
+     material.alpha = 1;
+     material.diffuseColor = new BABYLON.Color3(1, 1, 0);
+     sphere.material = material;
+
+     // Display sphere coordinates
+     var textPlane = BABYLON.MeshBuilder.CreatePlane("textPlane", {
+         width: 170,
+         height: 30,
+         sideOrientation: 2
+     }, scene);
+     textPlane.setParent(sphere);
+     textPlane.position.y = 30;
+     textPlane.position.z = -30;
+     textPlane.billboardMode = BABYLON.Mesh.BILLBOARDMODE_ALL;
+     var material = new BABYLON.StandardMaterial("textPlaneMaterial", scene);
+     textplaneTexture = new BABYLON.DynamicTexture("dynamic texture", {
+         width: 550,
+         height: 256
+     }, scene);
+     material.diffuseTexture = textplaneTexture;
+     textPlane.material = material;
+     textplaneTexture.hasAlpha = true;
+     textplaneTexture.drawText("(0,0,0)", 0, 140, "bold 40px monospace", "blue", "white", true, true);
+ }
+
+ function createGrid() {
+     xy = new BABYLON.MeshBuilder.CreatePlane("xy", {
+         width: 2000,
+         height: 2000,
+         sideOrientation: 2
+     }, scene);
+
+     yz = new BABYLON.MeshBuilder.CreatePlane("yz", {
+         width: 2000,
+         height: 2000,
+         sideOrientation: 2
+     }, scene);
+     yz.rotation.y = Math.PI / 2;
+
+     xz = new BABYLON.MeshBuilder.CreatePlane("xz", {
+         width: 2000,
+         height: 2000,
+         sideOrientation: 2
+     }, scene);
+     xz.rotation.x = Math.PI / 2;
+
+     var gridMaterial = new BABYLON.GridMaterial("grid", scene);
+     gridMaterial.mainColor = new BABYLON.Color3(0, 0, 0);
+     gridMaterial.lineColor = new BABYLON.Color3(0, 0, 0);
+     gridMaterial.opacity = 0.98;
+     xy.material = gridMaterial;
+     yz.material = gridMaterial;
+     xz.material = gridMaterial;
+
+     xy.setEnabled(false);
+     yz.setEnabled(false);
+     xz.setEnabled(false);
+ }
+
+ function showXYGrid(checked) {
+     xy.setEnabled(checked);
+ }
+
+ function showYZGrid(checked) {
+     yz.setEnabled(checked);
+ }
+
+ function showXZGrid(checked) {
+     xz.setEnabled(checked);
+ }
+
+ function setXY() {
+     camera.setPosition(new BABYLON.Vector3(0, 0, 400));
+ }
+
+ function setYZ() {
+     camera.setPosition(new BABYLON.Vector3(400, 0, 0));
+ }
+
+ function setXZ() {
+     camera.setPosition(new BABYLON.Vector3(0, 400, 0));
+ }
+
+ function stopScroll() {
+     document.body.style.overflow = "hidden";
+ }
+
+ function startScroll() {
+     document.body.style.overflow = "auto";
  }

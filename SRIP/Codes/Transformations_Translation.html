@@ -1,66 +1,105 @@
 <!DOCTYPE html>
-    <head lang="en">
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-        <title>Transformations : Translation</title>
-        
-        <script type="text/x-mathjax-config">
-            MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+
+<head lang="en">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <title>Transformations : Translation</title>
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
         </script>
-        <link rel="stylesheet" href="../Libraries/bootstrap-4.3.1-dist/css/bootstrap.min.css"> 
-        <link rel="stylesheet" href="css/style.css">
-        <script src="../Libraries/bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
-        <script src="../Libraries/Babylon.js-master/dist/babylon.js"></script>
-        <script src="../Libraries/Babylon.js-master/dist/loaders/babylonjs.loaders.min.js"></script>
-        <script src="../Libraries/Babylon.js-master/dist/gui/babylon.gui.min.js"></script>
-        <script src="../Libraries/MathJax-master/MathJax.js?config=TeX-MML-AM_CHTML"></script>
-        
-    </head>
-    <body>
-        <div id="heading"><h1><small>Experiment no. 2<br/></small>Transformations : Translation</h1></div>
-        <div id="point" class="container-fluid"><div class="row" >
+    <link rel="stylesheet" href="../Libraries/bootstrap-4.3.1-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="../Libraries/bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
+    <script src="../Libraries/Babylon.js-master/dist/babylon.js"></script>
+    <script src="../Libraries/Babylon.js-master/dist/loaders/babylonjs.loaders.min.js"></script>
+    <script src="../Libraries/Babylon.js-master/dist/gui/babylon.gui.min.js"></script>
+    <script src="../Libraries/Babylon.js-master/dist/preview release/materialsLibrary/babylon.gridMaterial.js"></script>
+    <script src="../Libraries/MathJax-master/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+</head>
+
+<body>
+    <div id="heading">
+        <h1><small>Experiment no. 2<br /></small>Transformations : Translation</h1>
+    </div>
+    <div id="point" class="container-fluid">
+        <div class="row">
             <div id="point_display" class="col-md-8">
-                <canvas id="renderCanvas"></canvas>
+                <canvas id="renderCanvas" onmouseover="stopScroll()" onmouseout="startScroll()"></canvas>
             </div>
-            <div id="point_info" class="col-md-3"><div class="row">
-                <div class="col-md-12">
-                    <h5>Manual:</h5>
-                    <div id="manual"><p></p><p></p><p></p><p></p></div>
-                </div>
-                <div class="col-md-12"> 
-                    <h5>Current point position:</h5>
-                    <p></p>
-                </div>
-                <div class="col-md-12">
-                    <input type="checkbox" id="coordinate_transform" onclick="transformCoordinate(this.checked)"><span>Transform co-ordinate system</span>
-                </div>
-                    
-                <div class="col-md-12">
-                    <h5>Transformation matrix:</h5>
-                    <div id = "transformMatrix">
+            <div id="point_info" class="col-md-3">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h5>Manual:</h5>
+                        <div id="manual">
+                            <p></p>
+                            <p></p>
+                            <p></p>
+                            <p></p>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <h5>Current point position:</h5>
+                        <p></p>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="checkbox" id="coordinate_transform"
+                            onclick="transformCoordinate(this.checked)"><span>Transform co-ordinate system</span>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="checkbox" id="xyGrid" onclick="showXYGrid(this.checked)"><span>Show XY Grid</span>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="checkbox" id="yzGrid" onclick="showYZGrid(this.checked)"><span>Show YZ Grid</span>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="checkbox" id="xzGrid" onclick="showXZGrid(this.checked)"><span>Show XZ Grid</span>
+                    </div>
+                    <div class="col-md-12">
+                        <h5>Transformation matrix:</h5>
+                        <div id="transformMatrix">
+                        </div>
+                    </div>
+                    <div id="control" class="col-md-12">
+                        <div class="row">
+                            <div id="slider" class="col-md-12">
+                                <input type="range" value="0" min="0" max="100" oninput="changePosition(this.value)"
+                                    onchange="changePosition(this.value)" />
+                            </div>
+
+                            <div class="col-md-12"><span>X: </span><input id="destX" type="number" step="0.01"
+                                    value=100></div>
+                            <div class="col-md-12"><span>Y: </span><input id="destY" type="number" step="0.01"
+                                    value=100></div>
+                            <div class="col-md-12"><span>Z: </span><input id="destZ" type="number" step="0.01"
+                                    value=-300></div>
+
+                            <div class="col-md-12"><button id="change_destination" onclick="setNewDestination()">Set New
+                                    Destination</button></div>
+
+                            <div class="col-md-12"><span>X: </span><input id="strtX" type="number" step="0.01" value=0>
+                            </div>
+                            <div class="col-md-12"><span>Y: </span><input id="strtY" type="number" step="0.01" value=0>
+                            </div>
+                            <div class="col-md-12"><span>Z: </span><input id="strtZ" type="number" step="0.01" value=0>
+                            </div>
+
+                            <div class="col-md-12"><button id="change_starting_point"
+                                    onclick="changeStartingPoint()">Set Starting Point</button></div>
+                            <div class="col-md-12"><button id="setXY" onclick="setXY()">Set XY View</button></div>
+                            <div class="col-md-12"><button id="setYZ" onclick="setYZ()">Set YZ View</button></div>
+                            <div class="col-md-12"><button id="setXZ" onclick="setXZ()">Set XZ View</button></div>
+                            <div class="col-md-12"><button id="reset_camera" onclick="resetCamera()">Reset
+                                    Camera</button></div>
+                        </div>
                     </div>
                 </div>
-                <div id="control" class="col-md-12"><div class="row">
-                    <div id="slider" class="col-md-12">
-                        <input type="range" value="0" min="0" max="100" oninput="changePosition(this.value)" onchange="changePosition(this.value)"/>
-                    </div>
-                        
-                    <div class="col-md-12"><span >X: </span><input id="destX" type="number" step="0.01" value = 100></div>
-                    <div class="col-md-12"><span >Y: </span><input id="destY" type="number" step="0.01" value = 100></div>
-                    <div class="col-md-12"><span >Z: </span><input id="destZ" type="number" step="0.01" value = -300></div>
-                        
-                    <div class="col-md-12"><button id="change_destination" onclick="setNewDestination()" >Set New Destination</button></div>
+            </div>
 
-                    <div class="col-md-12"><span >X: </span><input id="strtX" type="number" step="0.01" value = 0></div>
-                    <div class="col-md-12"><span >Y: </span><input id="strtY" type="number" step="0.01" value = 0></div>
-                    <div class="col-md-12"><span >Z: </span><input id="strtZ" type="number" step="0.01" value = 0></div>
+        </div>
+    </div>
+    <script src="js/main_script.js"></script>
+</body>
 
-                    <div class="col-md-12"><button id="change_starting_point" onclick="changeStartingPoint()">Set Starting Point</button></div>
-                    <div class="col-md-12"><button id = "reset_camera" onclick="resetCamera()">Reset Camera</button></div>
-                </div></div>
-            </div></div>
-            
-        </div></div>
-        <script src="js/main_script.js"></script>
-    </body>
 </html>
