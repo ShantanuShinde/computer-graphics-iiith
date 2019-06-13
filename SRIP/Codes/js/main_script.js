@@ -14,6 +14,7 @@
 
      // Create scene
      scene = new BABYLON.Scene(engine);
+     scene.useRightHandedSystem = true;
 
      // Create camera
      camera = new BABYLON.ArcRotateCamera("Camera", Math.PI / 2, Math.PI / 2, 100, new BABYLON.Vector3(0, 0, 0), scene);
