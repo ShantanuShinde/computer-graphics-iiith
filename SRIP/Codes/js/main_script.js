@@ -72,6 +72,7 @@
      displayPosition();
  }
 
+ // Function to display transformation matrix
  function displayTransformationMatrix() {
      var matrix = "$$\\begin{bmatrix} 1 & 0 & 0 & " + (vx - px).toFixed(2) + "\\\\ 0 & 1 & 0 & " + (vy - py).toFixed(2) + "\\\\ 0 & 0 & 1 & " + (vz - pz).toFixed(2) + "\\\\ 0 & 0 & 0 & 1 \\end{bmatrix}$$"
      var tranMat = document.getElementById("transformMatrix");
@@ -80,6 +81,7 @@
      MathJax.Hub.Queue(["Typeset", MathJax.Hub, tranMat]);
  }
 
+ // function to display the current position of the point
  function displayPosition() {
      var info = document.getElementById("point_info");
      var sliderValue = document.getElementById("slider").getElementsByTagName("input")[0].value;
@@ -87,6 +89,7 @@
      info.getElementsByTagName("p")[4].innerHTML = coordinate_info;
  }
 
+ // function to change the position of the point or the coordinate axes and handle other display changes that come with it, called on moving the slider
  function changePosition(newVal) {
      if (!transformCo_ordinate) {
          sphere.position = new BABYLON.Vector3(((vx - px) / 100) * newVal + px, ((vy - py) / 100) * newVal + py, ((vz - pz) / 100) * newVal + pz);
@@ -108,12 +111,14 @@
      displayPosition();
  }
 
+ // function to switch between coordinate transformation and transformation of the point, called on clicking the Transform Coordinates checkbox
  function transformCoordinate(transform) {
      resetPoint();
      transformCo_ordinate = transform;
      displayPosition();
  }
 
+ // function to reset point or coordinate position to the starting position
  function resetPoint() {
      if (transformCo_ordinate) {
          Xaxis = BABYLON.MeshBuilder.CreateLines("Xaxis", {
@@ -135,16 +140,19 @@
      updateCoordinates();
  }
 
+ // function to update the displayed position of the point
  function updateCoordinates() {
      var sliderValue = document.getElementById("slider").getElementsByTagName("input")[0].value;
      var coordinate_info = "(" + (((vx - px) / 100) * sliderValue + px).toFixed(2) + "," + (((vy - py) / 100) * sliderValue + py).toFixed(2) + "," + (((vz - pz) / 100) * sliderValue + pz).toFixed(2) + ")";
      textplaneTexture.drawText(coordinate_info, 0, 140, "bold 40px monospace", "blue", "white", true, true);
  }
 
+ // function to reset camera view, called on pressing the Reset Camera button
  function resetCamera() {
      camera.setPosition(new BABYLON.Vector3(300, 300, 300));
  }
 
+ // function to change the coordinates of the starting position of the point, called on pressing the Set Starting Point button
  function changeStartingPoint() {
      var tempPX = parseFloat(document.getElementById("strtX").value);
      var tempPY = parseFloat(document.getElementById("strtY").value);
@@ -162,6 +170,7 @@
      resetPoint();
  }
 
+ // function to change the destination position of the point, called on pressing the Set New Destination button
  function setNewDestination() {
      var tempVX = parseFloat(document.getElementById("destX").value);
      var tempVY = parseFloat(document.getElementById("destY").value);
@@ -182,18 +191,21 @@
  }
 
 
+ // function called on clicking previous inside the manual to display the previous page
  function manualBackward() {
      manual[manualIndex].hidden = true;
      manualIndex = (manualIndex - 1) % 4;
      manual[manualIndex].hidden = false;
  }
-
+ 
+ // function called on clicking the next inside the manual to display the next page
  function manualForward() {
      manual[manualIndex].hidden = true;
      manualIndex = (manualIndex + 1) % 4;
      manual[manualIndex].hidden = false;
  }
 
+ // function to display the labels of the axes
  function createAxesLabels() {
      var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("myUI");
      var xAxis = new BABYLON.GUI.TextBlock();
@@ -253,6 +265,7 @@
      advancedTexture.addControl(zAxisName);
  }
 
+ // function to create and display coordinate axes
  function createAxes() {
      Xaxis = BABYLON.MeshBuilder.CreateLines("Xaxis", {
          points: [new BABYLON.Vector3(1000, 0, 0), new BABYLON.Vector3(-1000, 0, 0)],
@@ -269,8 +282,118 @@
      Xaxis.color = new BABYLON.Color3(1, 0, 0);
      Yaxis.color = new BABYLON.Color3(0, 1, 0);
      Zaxis.color = new BABYLON.Color3(0, 0, 1);
+
+     // display axis label
+     //// + X label
+     var pXplane = BABYLON.MeshBuilder.CreatePlane("pXplane", {
+        width: 100,
+        height: 40,
+        sideOrientation: 2
+    }, scene);
+    pXplane.position.x = 100;
+    pXplane.billboardMode = BABYLON.Mesh.BILLBOARDMODE_ALL;
+    var pXPlaneTexture = new BABYLON.DynamicTexture("dynamic texture", {
+        width: 550,
+        height: 256
+    }, scene);
+    var pXmaterial = new BABYLON.StandardMaterial("textPlaneMaterial", scene);
+    pXmaterial.diffuseTexture = pXPlaneTexture;
+    pXplane.material = pXmaterial;
+    pXPlaneTexture.hasAlpha = true;
+    pXPlaneTexture.drawText("+ X", 200, 90, "bold 50px monospace", "red", "transparent", true, true);
+
+    //// - X label
+    var nXplane = BABYLON.MeshBuilder.CreatePlane("nXplane", {
+        width: 100,
+        height: 40,
+        sideOrientation: 2
+    }, scene);
+    nXplane.position.x = -100;
+    nXplane.billboardMode = BABYLON.Mesh.BILLBOARDMODE_ALL;
+    var nXPlaneTexture = new BABYLON.DynamicTexture("dynamic texture", {
+        width: 550,
+        height: 256
+    }, scene);
+    var nXmaterial = new BABYLON.StandardMaterial("textPlaneMaterial", scene);
+    nXmaterial.diffuseTexture = nXPlaneTexture;
+    nXplane.material = nXmaterial;
+    nXPlaneTexture.hasAlpha = true;
+    nXPlaneTexture.drawText("- X", 200, 90, "bold 50px monospace", "red", "transparent", true, true);
+
+    //// + Y label
+    var pYplane = BABYLON.MeshBuilder.CreatePlane("pYplane", {
+        width: 100,
+        height: 40,
+        sideOrientation: 2
+    }, scene);
+    pYplane.position.y = 100;
+    pYplane.billboardMode = BABYLON.Mesh.BILLBOARDMODE_ALL;
+    var pYPlaneTexture = new BABYLON.DynamicTexture("dynamic texture", {
+        width: 550,
+        height: 256
+    }, scene);
+    var pYmaterial = new BABYLON.StandardMaterial("textPlaneMaterial", scene);
+    pYmaterial.diffuseTexture = pYPlaneTexture;
+    pYplane.material = pYmaterial;
+    pYPlaneTexture.hasAlpha = true;
+    pYPlaneTexture.drawText("+ Y", 150, 90, "bold 50px monospace", "green", "transparent", true, true);
+
+    //// - Y label
+    var nYplane = BABYLON.MeshBuilder.CreatePlane("nYplane", {
+        width: 100,
+        height: 40,
+        sideOrientation: 2
+    }, scene);
+    nYplane.position.y = -100;
+    nYplane.billboardMode = BABYLON.Mesh.BILLBOARDMODE_ALL;
+    var nYPlaneTexture = new BABYLON.DynamicTexture("dynamic texture", {
+        width: 550,
+        height: 256
+    }, scene);
+    var nYmaterial = new BABYLON.StandardMaterial("textPlaneMaterial", scene);
+    nYmaterial.diffuseTexture = nYPlaneTexture;
+    nYplane.material = nYmaterial;
+    nYPlaneTexture.hasAlpha = true;
+    nYPlaneTexture.drawText("- Y", 150, 90, "bold 50px monospace", "green", "transparent", true, true);
+
+    //// + Z label
+    var pZplane = BABYLON.MeshBuilder.CreatePlane("pZplane", {
+        width: 100,
+        height: 40,
+        sideOrientation: 2
+    }, scene);
+    pZplane.position.z = 100;
+    pZplane.billboardMode = BABYLON.Mesh.BILLBOARDMODE_ALL;
+    var pZPlaneTexture = new BABYLON.DynamicTexture("dynamic texture", {
+        width: 550,
+        height: 256
+    }, scene);
+    var pZmaterial = new BABYLON.StandardMaterial("textPlaneMaterial", scene);
+    pZmaterial.diffuseTexture = pZPlaneTexture;
+    pZplane.material = pZmaterial;
+    pZPlaneTexture.hasAlpha = true;
+    pZPlaneTexture.drawText("+ Z", 200, 90, "bold 50px monospace", "blue", "transparent", true, true);
+
+    //// - Z label
+    var nZplane = BABYLON.MeshBuilder.CreatePlane("nZplane", {
+        width: 100,
+        height: 40,
+        sideOrientation: 2
+    }, scene);
+    nZplane.position.z = -100;
+    nZplane.billboardMode = BABYLON.Mesh.BILLBOARDMODE_ALL;
+    var nZPlaneTexture = new BABYLON.DynamicTexture("dynamic texture", {
+        width: 550,
+        height: 256
+    }, scene);
+    var nZmaterial = new BABYLON.StandardMaterial("textPlaneMaterial", scene);
+    nZmaterial.diffuseTexture = nZPlaneTexture;
+    nZplane.material = nZmaterial;
+    nZPlaneTexture.hasAlpha = true;
+    nZPlaneTexture.drawText("- Z", 200, 90, "bold 50px monospace", "blue", "transparent", true, true);
  }
 
+ // function to create the point
  function createSphere() {
      sphere = new BABYLON.MeshBuilder.CreateSphere("sphere", {
          diameter: 5
@@ -298,9 +421,10 @@
      material.diffuseTexture = textplaneTexture;
      textPlane.material = material;
      textplaneTexture.hasAlpha = true;
-     textplaneTexture.drawText("(0,0,0)", 0, 140, "bold 40px monospace", "blue", "white", true, true);
+     textplaneTexture.drawText("(0.00,0.00,0.00)", 0, 140, "bold 40px monospace", "blue", "white", true, true);
  }
 
+ // function to create the coordinate grid in all three planes
  function createGrid() {
      xy = new BABYLON.MeshBuilder.CreatePlane("xy", {
          width: 2000,
@@ -335,34 +459,42 @@
      xz.setEnabled(false);
  }
 
+ // function to switch display of xy plane grid, called on clicking Show XY Grid checkbox
  function showXYGrid(checked) {
      xy.setEnabled(checked);
  }
 
+ // function to switch display of yz plane grid, called on clicking Show YZ Grid checkbox
  function showYZGrid(checked) {
      yz.setEnabled(checked);
  }
 
+ // function to switch display of xz plane grid, called on clicking Show XZ Grid checkbox
  function showXZGrid(checked) {
      xz.setEnabled(checked);
  }
 
+ // functiom to set camera to XY view, called on clicking Set XY View button 
  function setXY() {
      camera.setPosition(new BABYLON.Vector3(0, 0, 400));
  }
 
+ // functiom to set camera to YZ view, called on clicking Set YZ View button
  function setYZ() {
      camera.setPosition(new BABYLON.Vector3(400, 0, 0));
  }
 
+ // functiom to set camera to XZ view, called on clicking Set XZ View button
  function setXZ() {
      camera.setPosition(new BABYLON.Vector3(0, 400, 0));
  }
 
+ // function to stop scrolling of the web page, called when mouseover the main display
  function stopScroll() {
      document.body.style.overflow = "hidden";
  }
 
+ // function to resume web page scrolling, called when mouseout of the main display
  function startScroll() {
      document.body.style.overflow = "auto";
  }
