@@ -8,6 +8,8 @@
  var textplaneTexture;
  var manual, manualIndex = 0;
  var xy, yz, xz;
+ var pXplane, nXplane, pYplane, nYplane, pZplane, nZplane;
+
  init();
 
  function init() {
@@ -62,7 +64,7 @@
      // Add text to the manual
      manual = document.getElementById("manual").getElementsByTagName("p");
      manual[0].innerHTML = "<b><u>Translation</u></b><br><i><u>Introduction to the interface</u>:</i><br> <a href='#' onclick='manualForward()'> Next</a><br><br>This experiment is to demonstrate how translation transformation works on point and coordinate system. The point and coordinate system is displayed in the top part. The point starts at the origin. The current coordinates of the point are displayed above the point as well as below. Below the coordinates is the checkbox to select whether to move the point or the coordinate system. Below it are three checkboxes to select whether or not to display XY, YZ and XZ grids. Below it is the transformation matrix applied for translation. Below it is the slider to move the point or the coordinate system to the current destination. Than there are input for X, Y, Z. The <b>Set New Destination</b> button sets the X,Y,Z values as the current destination. Below it are another X,Y,Z values that can be editted. The <b>Set Starting Point</b> changes the starting position of the point to the value of these X, Y, Z. Below that are three buttons, <b>Set XY View</b>, <b>Set YZ View</b> and <b>Set XZ View</b>, to set camera view to XY, YZ and XZ planes respectively. The <b>Reset Camera</b> button resets the camera of the display.<br> <br> <a href='#' onclick='manualForward()'> Next</a>";
-     manual[1].innerHTML = "<i><u>Set Up</u>:</i><br> <a href='#' onclick='manualBackward()'> Previous</a> | <a href='#' onclick='manualForward()'>Next</a><br><br>The experiment starts with the point at the origin and the initial destination set to (100,100,-300). Translation transformation is applied to the point. This translation is animated. The slider can be dragged forward and backward to make the point move towards and away from the destination in the animation respectively. The destination of the point can be editted by typing in the coordinates in the first set of X,Y,Z and clicking the <b>Set New Destination</b> button.Starting position of the point can also be changed by putting in the new coordinates in the second set of X,Y,Z and clicking the <b>Set Starting Point</b> button. The point moves in 3D space and the camera can be moved by clicking and dragging in the display area to rotate and scrolling the mourse wheel in that area to change the distance. To set the camera view to 2D in XY, YZ and XZ planes, click <b>Set XY View</b>, <b>Set YZ View</b> and <b>Set XZ View</b> buttons respectively. To reset camera back to deafult view, click the <b>Reset Camera</b> button.<br><br> <a href='#' onclick='manualBackward()'> Previous</a> | <a href='#' onclick='manualForward'>Next</a>";
+     manual[1].innerHTML = "<i><u>Set Up</u>:</i><br> <a href='#' onclick='manualBackward()'> Previous</a> | <a href='#' onclick='manualForward()'>Next</a><br><br>The experiment starts with the point at the origin and the initial destination set to (100,100,-300). Translation transformation is applied to the point. This translation is animated. The slider can be dragged forward and backward to make the point move towards and away from the destination in the animation respectively. The destination of the point can be editted by typing in the coordinates in the first set of X,Y,Z and clicking the <b>Set New Destination</b> button.Starting position of the point can also be changed by putting in the new coordinates in the second set of X,Y,Z and clicking the <b>Set Starting Point</b> button. The point moves in 3D space and the camera can be moved by clicking and dragging in the display area to rotate and scrolling the mourse wheel in that area to change the distance. To set the camera view to 2D in XY, YZ and XZ planes, click <b>Set XY View</b>, <b>Set YZ View</b> and <b>Set XZ View</b> buttons respectively. To reset camera back to deafult view, click the <b>Reset Camera</b> button.<br><br> <a href='#' onclick='manualBackward()'> Previous</a> | <a href='#' onclick='manualForward()'>Next</a>";
      manual[2].innerHTML = "<i><u>Vector Addition vs Matrix Product Form</u>:</i><br> <a href='#' onclick='manualBackward()'> Previous</a> | <a href='#' onclick='manualForward()'>Next</a><br><br>Translation can be represented in two ways: -<br> 1.Vector Addition Form: Trnaslation of (tx,ty,tz) units can be represented as vector addition of the units to the position of the point to which the translation is applied.<br>2.Matrix Product Form: This form is used in the experiment to represent translation. In this, translation of (tx,ty,tz) units on a point (px,py,pz) can be represented as the matrix multiplication of the Transformation matrix: <br><br>    $$\\begin{bmatrix} 1 & 0 & 0 & tx\\\\ 0 & 1 & 0 & ty\\\\ 0 & 0 & 1 & tz\\\\ 0 & 0 & 0 & 1 \\end{bmatrix}$$ <br><br>and the vector of the point: <br/<br>    $$\\begin{bmatrix} px \\\\ py \\\\ pz \\\\ 1 \\end{bmatrix}$$ <br/<br> In the experiment, the transformation matrix is displayed for the given starting point and destination.<br><br> <a href='#' onclick='manualBackward()'> Previous</a> | <a href='#' onclick='manualForward()'>Next</a>";
      manual[3].innerHTML = "<i><u>Interpreting Transformations</u>: </i><br> <a href='#' onclick='manualBackward()'> Previous</a><br><br>Any transformation can be interpreted either as a modification of a point in the co-ordinate system or the modification of the co-ordinate system itself.Switch between the two interpretations at the point using the Transform Co-ordinate Systems checkbox.<br><br> <a href='#' onclick='manualBackward()'>Previous</a>"
      MathJax.Hub.Queue(["Typeset", MathJax.Hub, manual[2]]);
@@ -91,21 +93,34 @@
 
  // function to change the position of the point or the coordinate axes and handle other display changes that come with it, called on moving the slider
  function changePosition(newVal) {
-     if (!transformCo_ordinate) {
-         sphere.position = new BABYLON.Vector3(((vx - px) / 100) * newVal + px, ((vy - py) / 100) * newVal + py, ((vz - pz) / 100) * newVal + pz);
+     var x = ((vx - px) / 100) * newVal + px,
+         y = ((vy - py) / 100) * newVal + py,
+         z = ((vz - pz) / 100) * newVal + pz;
+     if (!transformCo_ordinate) {                                       // change point position 
+         sphere.position = new BABYLON.Vector3(x, y, z);                // change coordinate system
      } else {
          Xaxis = BABYLON.MeshBuilder.CreateLines("Xaxis", {
-             points: [new BABYLON.Vector3(1000, (vy / 100) * newVal, (vz / 100) * newVal), new BABYLON.Vector3(-1000, (vy / 100) * newVal, (vz / 100) * newVal)],
+             points: [new BABYLON.Vector3(1000, y, z), new BABYLON.Vector3(-1000, y, z)],
              instance: Xaxis
          });
          Yaxis = BABYLON.MeshBuilder.CreateLines("Yaxis", {
-             points: [new BABYLON.Vector3((vx / 100) * newVal, 1000, (vz / 100) * newVal), new BABYLON.Vector3((vx / 100) * newVal, -1000, (vz / 100) * newVal)],
+             points: [new BABYLON.Vector3(x, 1000, z), new BABYLON.Vector3(x, -1000, z)],
              instance: Yaxis
          });
          Zaxis = BABYLON.MeshBuilder.CreateLines("Zaxis", {
-             points: [new BABYLON.Vector3((vx / 100) * newVal, (vy / 100) * newVal, 1000), new BABYLON.Vector3((vx / 100) * newVal, (vy / 100) * newVal, -1000)],
+             points: [new BABYLON.Vector3(x, y, 1000), new BABYLON.Vector3(x, y, -1000)],
              instance: Zaxis
          });
+         // change axis label position
+         pXplane.position.x = 100 + x, nXplane.position.x = -100 + x;
+         pXplane.position.y = y, pXplane.position.z = z, nXplane.position.y = y, nXplane.position.z = z;
+         pYplane.position.y = 100 + y, nYplane.position.y = -100 + y;
+         pYplane.position.x = x, pYplane.position.z = z, nYplane.position.x = x, nYplane.position.z = z;
+         pZplane.position.z = 100 + z, nZplane.position.z = -100 + z;
+         pZplane.position.x = x, pZplane.position.y = y, nZplane.position.x = x, nZplane.position.y = y;
+
+         // change grid position
+         xy.position.z = z, yz.position.x = x, xz.position.y = y;
      }
      updateCoordinates();
      displayPosition();
@@ -120,22 +135,31 @@
 
  // function to reset point or coordinate position to the starting position
  function resetPoint() {
-     if (transformCo_ordinate) {
-         Xaxis = BABYLON.MeshBuilder.CreateLines("Xaxis", {
-             points: [new BABYLON.Vector3(1000, 0, 0), new BABYLON.Vector3(-1000, 0, 0)],
-             instance: Xaxis
-         });
-         Yaxis = BABYLON.MeshBuilder.CreateLines("Yaxis", {
-             points: [new BABYLON.Vector3(0, 1000, 0), new BABYLON.Vector3(0, -1000, 0)],
-             instance: Yaxis
-         });
-         Zaxis = BABYLON.MeshBuilder.CreateLines("Zaxis", {
-             points: [new BABYLON.Vector3(0, 0, 1000), new BABYLON.Vector3(0, 0, -1000)],
-             instance: Zaxis
-         });
-     } else {
-         sphere.position = new BABYLON.Vector3(px, py, pz);
-     }
+     // reset coordinate system position
+     Xaxis = BABYLON.MeshBuilder.CreateLines("Xaxis", {
+         points: [new BABYLON.Vector3(1000, py, pz), new BABYLON.Vector3(-1000, py, pz)],
+         instance: Xaxis
+     });
+     Yaxis = BABYLON.MeshBuilder.CreateLines("Yaxis", {
+         points: [new BABYLON.Vector3(px, 1000, pz), new BABYLON.Vector3(px, -1000, pz)],
+         instance: Yaxis
+     });
+     Zaxis = BABYLON.MeshBuilder.CreateLines("Zaxis", {
+         points: [new BABYLON.Vector3(px, py, 1000), new BABYLON.Vector3(px, py, -1000)],
+         instance: Zaxis
+     });
+
+     // reset point position
+     sphere.position = new BABYLON.Vector3(px, py, pz);
+
+     // reset axis label position
+     pXplane.position.x = 100, pXplane.position.y = py, pXplane.position.z = pz, nXplane.position.x = -100, nXplane.position.y = py, nXplane.position.z = pz;
+     pYplane.position.y = 100, pYplane.position.x = px, pYplane.position.z = pz, nYplane.position.y = -100, nYplane.position.x = px, nYplane.position.z = pz;
+     pZplane.position.z = 100, pZplane.position.x = px, pZplane.position.y = py, nZplane.position.z = -100, nZplane.position.x = px, nZplane.position.y = py;
+
+     // reset grid position
+     xy.position.z = pz, yz.position.x = px, xz.position.y = py;
+
      document.getElementById("slider").getElementsByTagName("input")[0].value = 0;
      updateCoordinates();
  }
@@ -197,7 +221,7 @@
      manualIndex = (manualIndex - 1) % 4;
      manual[manualIndex].hidden = false;
  }
- 
+
  // function called on clicking the next inside the manual to display the next page
  function manualForward() {
      manual[manualIndex].hidden = true;
@@ -285,112 +309,117 @@
 
      // display axis label
      //// + X label
-     var pXplane = BABYLON.MeshBuilder.CreatePlane("pXplane", {
-        width: 100,
-        height: 40,
-        sideOrientation: 2
-    }, scene);
-    pXplane.position.x = 100;
-    pXplane.billboardMode = BABYLON.Mesh.BILLBOARDMODE_ALL;
-    var pXPlaneTexture = new BABYLON.DynamicTexture("dynamic texture", {
-        width: 550,
-        height: 256
-    }, scene);
-    var pXmaterial = new BABYLON.StandardMaterial("textPlaneMaterial", scene);
-    pXmaterial.diffuseTexture = pXPlaneTexture;
-    pXplane.material = pXmaterial;
-    pXPlaneTexture.hasAlpha = true;
-    pXPlaneTexture.drawText("+ X", 200, 90, "bold 50px monospace", "red", "transparent", true, true);
+     pXplane = BABYLON.MeshBuilder.CreatePlane("pXplane", {
+         width: 100,
+         height: 40,
+         sideOrientation: 2
+     }, scene);
+     pXplane.setParent(Xaxis);
+     pXplane.position.x = 100;
+     pXplane.billboardMode = BABYLON.Mesh.BILLBOARDMODE_ALL;
+     var pXPlaneTexture = new BABYLON.DynamicTexture("dynamic texture", {
+         width: 550,
+         height: 256
+     }, scene);
+     var pXmaterial = new BABYLON.StandardMaterial("textPlaneMaterial", scene);
+     pXmaterial.diffuseTexture = pXPlaneTexture;
+     pXplane.material = pXmaterial;
+     pXPlaneTexture.hasAlpha = true;
+     pXPlaneTexture.drawText("+ X", 200, 90, "bold 50px monospace", "red", "transparent", true, true);
 
-    //// - X label
-    var nXplane = BABYLON.MeshBuilder.CreatePlane("nXplane", {
-        width: 100,
-        height: 40,
-        sideOrientation: 2
-    }, scene);
-    nXplane.position.x = -100;
-    nXplane.billboardMode = BABYLON.Mesh.BILLBOARDMODE_ALL;
-    var nXPlaneTexture = new BABYLON.DynamicTexture("dynamic texture", {
-        width: 550,
-        height: 256
-    }, scene);
-    var nXmaterial = new BABYLON.StandardMaterial("textPlaneMaterial", scene);
-    nXmaterial.diffuseTexture = nXPlaneTexture;
-    nXplane.material = nXmaterial;
-    nXPlaneTexture.hasAlpha = true;
-    nXPlaneTexture.drawText("- X", 200, 90, "bold 50px monospace", "red", "transparent", true, true);
 
-    //// + Y label
-    var pYplane = BABYLON.MeshBuilder.CreatePlane("pYplane", {
-        width: 100,
-        height: 40,
-        sideOrientation: 2
-    }, scene);
-    pYplane.position.y = 100;
-    pYplane.billboardMode = BABYLON.Mesh.BILLBOARDMODE_ALL;
-    var pYPlaneTexture = new BABYLON.DynamicTexture("dynamic texture", {
-        width: 550,
-        height: 256
-    }, scene);
-    var pYmaterial = new BABYLON.StandardMaterial("textPlaneMaterial", scene);
-    pYmaterial.diffuseTexture = pYPlaneTexture;
-    pYplane.material = pYmaterial;
-    pYPlaneTexture.hasAlpha = true;
-    pYPlaneTexture.drawText("+ Y", 150, 90, "bold 50px monospace", "green", "transparent", true, true);
+     //// - X label
+     nXplane = BABYLON.MeshBuilder.CreatePlane("nXplane", {
+         width: 100,
+         height: 40,
+         sideOrientation: 2
+     }, scene);
+     nXplane.position.x = -100;
+     nXplane.billboardMode = BABYLON.Mesh.BILLBOARDMODE_ALL;
+     var nXPlaneTexture = new BABYLON.DynamicTexture("dynamic texture", {
+         width: 550,
+         height: 256
+     }, scene);
+     var nXmaterial = new BABYLON.StandardMaterial("textPlaneMaterial", scene);
+     nXmaterial.diffuseTexture = nXPlaneTexture;
+     nXplane.material = nXmaterial;
+     nXPlaneTexture.hasAlpha = true;
+     nXPlaneTexture.drawText("- X", 200, 90, "bold 50px monospace", "red", "transparent", true, true);
 
-    //// - Y label
-    var nYplane = BABYLON.MeshBuilder.CreatePlane("nYplane", {
-        width: 100,
-        height: 40,
-        sideOrientation: 2
-    }, scene);
-    nYplane.position.y = -100;
-    nYplane.billboardMode = BABYLON.Mesh.BILLBOARDMODE_ALL;
-    var nYPlaneTexture = new BABYLON.DynamicTexture("dynamic texture", {
-        width: 550,
-        height: 256
-    }, scene);
-    var nYmaterial = new BABYLON.StandardMaterial("textPlaneMaterial", scene);
-    nYmaterial.diffuseTexture = nYPlaneTexture;
-    nYplane.material = nYmaterial;
-    nYPlaneTexture.hasAlpha = true;
-    nYPlaneTexture.drawText("- Y", 150, 90, "bold 50px monospace", "green", "transparent", true, true);
 
-    //// + Z label
-    var pZplane = BABYLON.MeshBuilder.CreatePlane("pZplane", {
-        width: 100,
-        height: 40,
-        sideOrientation: 2
-    }, scene);
-    pZplane.position.z = 100;
-    pZplane.billboardMode = BABYLON.Mesh.BILLBOARDMODE_ALL;
-    var pZPlaneTexture = new BABYLON.DynamicTexture("dynamic texture", {
-        width: 550,
-        height: 256
-    }, scene);
-    var pZmaterial = new BABYLON.StandardMaterial("textPlaneMaterial", scene);
-    pZmaterial.diffuseTexture = pZPlaneTexture;
-    pZplane.material = pZmaterial;
-    pZPlaneTexture.hasAlpha = true;
-    pZPlaneTexture.drawText("+ Z", 200, 90, "bold 50px monospace", "blue", "transparent", true, true);
+     //// + Y label
+     pYplane = BABYLON.MeshBuilder.CreatePlane("pYplane", {
+         width: 100,
+         height: 40,
+         sideOrientation: 2
+     }, scene);
+     pYplane.position.y = 100;
+     pYplane.billboardMode = BABYLON.Mesh.BILLBOARDMODE_ALL;
+     var pYPlaneTexture = new BABYLON.DynamicTexture("dynamic texture", {
+         width: 550,
+         height: 256
+     }, scene);
+     var pYmaterial = new BABYLON.StandardMaterial("textPlaneMaterial", scene);
+     pYmaterial.diffuseTexture = pYPlaneTexture;
+     pYplane.material = pYmaterial;
+     pYPlaneTexture.hasAlpha = true;
+     pYPlaneTexture.drawText("+ Y", 150, 90, "bold 50px monospace", "green", "transparent", true, true);
 
-    //// - Z label
-    var nZplane = BABYLON.MeshBuilder.CreatePlane("nZplane", {
-        width: 100,
-        height: 40,
-        sideOrientation: 2
-    }, scene);
-    nZplane.position.z = -100;
-    nZplane.billboardMode = BABYLON.Mesh.BILLBOARDMODE_ALL;
-    var nZPlaneTexture = new BABYLON.DynamicTexture("dynamic texture", {
-        width: 550,
-        height: 256
-    }, scene);
-    var nZmaterial = new BABYLON.StandardMaterial("textPlaneMaterial", scene);
-    nZmaterial.diffuseTexture = nZPlaneTexture;
-    nZplane.material = nZmaterial;
-    nZPlaneTexture.hasAlpha = true;
-    nZPlaneTexture.drawText("- Z", 200, 90, "bold 50px monospace", "blue", "transparent", true, true);
+     //// - Y label
+     nYplane = BABYLON.MeshBuilder.CreatePlane("nYplane", {
+         width: 100,
+         height: 40,
+         sideOrientation: 2
+     }, scene);
+     nYplane.position.y = -100;
+     nYplane.billboardMode = BABYLON.Mesh.BILLBOARDMODE_ALL;
+     var nYPlaneTexture = new BABYLON.DynamicTexture("dynamic texture", {
+         width: 550,
+         height: 256
+     }, scene);
+     var nYmaterial = new BABYLON.StandardMaterial("textPlaneMaterial", scene);
+     nYmaterial.diffuseTexture = nYPlaneTexture;
+     nYplane.material = nYmaterial;
+     nYPlaneTexture.hasAlpha = true;
+     nYPlaneTexture.drawText("- Y", 150, 90, "bold 50px monospace", "green", "transparent", true, true);
+
+
+     //// + Z label
+     pZplane = BABYLON.MeshBuilder.CreatePlane("pZplane", {
+         width: 100,
+         height: 40,
+         sideOrientation: 2
+     }, scene);
+     pZplane.position.z = 100;
+     pZplane.billboardMode = BABYLON.Mesh.BILLBOARDMODE_ALL;
+     var pZPlaneTexture = new BABYLON.DynamicTexture("dynamic texture", {
+         width: 550,
+         height: 256
+     }, scene);
+     var pZmaterial = new BABYLON.StandardMaterial("textPlaneMaterial", scene);
+     pZmaterial.diffuseTexture = pZPlaneTexture;
+     pZplane.material = pZmaterial;
+     pZPlaneTexture.hasAlpha = true;
+     pZPlaneTexture.drawText("+ Z", 200, 90, "bold 50px monospace", "blue", "transparent", true, true);
+
+     //// - Z label
+     nZplane = BABYLON.MeshBuilder.CreatePlane("nZplane", {
+         width: 100,
+         height: 40,
+         sideOrientation: 2
+     }, scene);
+     nZplane.position.z = -100;
+     nZplane.billboardMode = BABYLON.Mesh.BILLBOARDMODE_ALL;
+     var nZPlaneTexture = new BABYLON.DynamicTexture("dynamic texture", {
+         width: 550,
+         height: 256
+     }, scene);
+     var nZmaterial = new BABYLON.StandardMaterial("textPlaneMaterial", scene);
+     nZmaterial.diffuseTexture = nZPlaneTexture;
+     nZplane.material = nZmaterial;
+     nZPlaneTexture.hasAlpha = true;
+     nZPlaneTexture.drawText("- Z", 200, 90, "bold 50px monospace", "blue", "transparent", true, true);
+
  }
 
  // function to create the point
@@ -438,6 +467,7 @@
          sideOrientation: 2
      }, scene);
      yz.rotation.y = Math.PI / 2;
+
 
      xz = new BABYLON.MeshBuilder.CreatePlane("xz", {
          width: 2000,
