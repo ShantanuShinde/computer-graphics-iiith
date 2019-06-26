@@ -26,42 +26,11 @@
     <div id="point" class="container-fluid">
         <div class="row">
             <div id="point_display" class="col-md-8">
-                <canvas id="renderCanvas" onmouseover="stopScroll()" onmouseout="startScroll()"></canvas>
+                <canvas id="renderCanvas" onmouseover="stopScroll()" onmouseout="startScroll()"
+                    onwheel="changeTextSize()"></canvas>
             </div>
             <div id="point_info" class="col-md-3">
                 <div class="row">
-                    <div class="col-md-12">
-                        <h5>Manual:</h5>
-                        <div id="manual">
-                            <p></p>
-                            <p></p>
-                            <p></p>
-                            <p></p>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <h5>Current point position:</h5>
-                        <p></p>
-                    </div>
-                    <div class="col-md-12">
-                        <input type="checkbox" id="coordinate_transform"
-                            onclick="transformCoordinate(this.checked)"><span>Transform co-ordinate system</span>
-                    </div>
-                    <div class="col-md-12">
-                        <input type="checkbox" id="xyGrid" onclick="showXYGrid(this.checked)"><span>Show XY Grid</span>
-                    </div>
-                    <div class="col-md-12">
-                        <input type="checkbox" id="yzGrid" onclick="showYZGrid(this.checked)"><span>Show YZ Grid</span>
-                    </div>
-                    <div class="col-md-12">
-                        <input type="checkbox" id="xzGrid" onclick="showXZGrid(this.checked)"><span>Show XZ Grid</span>
-                    </div>
-
-                    <div class="col-md-12">
-                        <h5>Transformation matrix:</h5>
-                        <div id="transformMatrix">
-                        </div>
-                    </div>
                     <div id="control" class="col-md-12">
                         <div class="row">
                             <div id="slider" class="col-md-12">
@@ -95,6 +64,39 @@
                                     Camera</button></div>
                         </div>
                     </div>
+                    <div class="col-md-12">
+                        <h5>Current point position:</h5>
+                        <p></p>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="checkbox" id="coordinate_transform"
+                            onclick="transformCoordinate(this.checked)"><span>Transform co-ordinate system</span>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="checkbox" id="xyGrid" onclick="showXYGrid(this.checked)"><span>Show XY Grid</span>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="checkbox" id="yzGrid" onclick="showYZGrid(this.checked)"><span>Show YZ Grid</span>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="checkbox" id="xzGrid" onclick="showXZGrid(this.checked)"><span>Show XZ Grid</span>
+                    </div>
+
+                    <div class="col-md-12">
+                        <h5>Transformation matrix:</h5>
+                        <div id="transformMatrix">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-md-8" id="manual_div">
+                <h5>Manual:</h5>
+                <div id="manual">
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                    <p></p>
                 </div>
             </div>
 

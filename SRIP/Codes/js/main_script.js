@@ -5,10 +5,11 @@
  var Xaxis, Yaxis, Zaxis;
  var vx, vy, vz, px, py, pz;;
  var transformCo_ordinate;
- var textplaneTexture;
+ var textplaneTexture, textPlane;
  var manual, manualIndex = 0;
  var xy, yz, xz;
  var pXplane, nXplane, pYplane, nYplane, pZplane, nZplane;
+ var cameraDefaultPostition = new BABYLON.Vector3(300, 300, 300);
 
  init();
 
@@ -20,7 +21,7 @@
 
      // Create camera
      camera = new BABYLON.ArcRotateCamera("Camera", Math.PI / 2, Math.PI / 2, 100, new BABYLON.Vector3(0, 0, 0), scene);
-     camera.setPosition(new BABYLON.Vector3(300, 300, 300))
+     camera.setPosition(cameraDefaultPostition)
      camera.attachControl(canvas, true);
 
      // Add lights to the scene
@@ -41,7 +42,9 @@
      // Create sphere
      createSphere();
 
+     // create grid
      createGrid();
+
      // Register a render loop to repeatedly render the scene
      engine.runRenderLoop(function () {
          scene.render();
@@ -96,8 +99,8 @@
      var x = ((vx - px) / 100) * newVal + px,
          y = ((vy - py) / 100) * newVal + py,
          z = ((vz - pz) / 100) * newVal + pz;
-     if (!transformCo_ordinate) {                                       // change point position 
-         sphere.position = new BABYLON.Vector3(x, y, z);                // change coordinate system
+     if (!transformCo_ordinate) { // change point position 
+         sphere.position = new BABYLON.Vector3(x, y, z); // change coordinate system
      } else {
          Xaxis = BABYLON.MeshBuilder.CreateLines("Xaxis", {
              points: [new BABYLON.Vector3(1000, y, z), new BABYLON.Vector3(-1000, y, z)],
@@ -168,12 +171,18 @@
  function updateCoordinates() {
      var sliderValue = document.getElementById("slider").getElementsByTagName("input")[0].value;
      var coordinate_info = "(" + (((vx - px) / 100) * sliderValue + px).toFixed(2) + "," + (((vy - py) / 100) * sliderValue + py).toFixed(2) + "," + (((vz - pz) / 100) * sliderValue + pz).toFixed(2) + ")";
-     textplaneTexture.drawText(coordinate_info, 0, 140, "bold 40px monospace", "blue", "white", true, true);
+     textPlane.material.diffuseTexture = new BABYLON.DynamicTexture("dynamic texture", {
+         width: 550,
+         height: 350
+     }, scene);
+     textPlane.material.diffuseTexture.hasAlpha = true;
+     textPlane.material.diffuseTexture.drawText(coordinate_info, 0, 200, "bold 40px monospace", "black", "transparent", true, true);
+
  }
 
  // function to reset camera view, called on pressing the Reset Camera button
  function resetCamera() {
-     camera.setPosition(new BABYLON.Vector3(300, 300, 300));
+     camera.setPosition(cameraDefaultPostition);
  }
 
  // function to change the coordinates of the starting position of the point, called on pressing the Set Starting Point button
@@ -314,7 +323,6 @@
          height: 40,
          sideOrientation: 2
      }, scene);
-     pXplane.setParent(Xaxis);
      pXplane.position.x = 100;
      pXplane.billboardMode = BABYLON.Mesh.BILLBOARDMODE_ALL;
      var pXPlaneTexture = new BABYLON.DynamicTexture("dynamic texture", {
@@ -433,24 +441,24 @@
      sphere.material = material;
 
      // Display sphere coordinates
-     var textPlane = BABYLON.MeshBuilder.CreatePlane("textPlane", {
-         width: 170,
-         height: 30,
+     textPlane = BABYLON.MeshBuilder.CreatePlane("textPlane", {
+         width: 300,
+         height: 100,
          sideOrientation: 2
      }, scene);
      textPlane.setParent(sphere);
-     textPlane.position.y = 30;
+     textPlane.position.y = 20;
      textPlane.position.z = -30;
      textPlane.billboardMode = BABYLON.Mesh.BILLBOARDMODE_ALL;
      var material = new BABYLON.StandardMaterial("textPlaneMaterial", scene);
      textplaneTexture = new BABYLON.DynamicTexture("dynamic texture", {
          width: 550,
-         height: 256
+         height: 350
      }, scene);
      material.diffuseTexture = textplaneTexture;
      textPlane.material = material;
      textplaneTexture.hasAlpha = true;
-     textplaneTexture.drawText("(0.00,0.00,0.00)", 0, 140, "bold 40px monospace", "blue", "white", true, true);
+     textplaneTexture.drawText("(0.00,0.00,0.00)", 0, 200, "bold 40px monospace", "black", "transparent", true, true);
  }
 
  // function to create the coordinate grid in all three planes

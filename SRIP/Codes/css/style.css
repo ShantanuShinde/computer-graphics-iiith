@@ -3,7 +3,8 @@ h1 {
     font-family: 'Courier New', Courier, monospace;
     padding-left: 0.5em;
     margin-bottom: 0em;
-    font-size: 3.2vw;
+    font-size: 2.5vw;
+    text-align: center;
 }
 
 #coordinate_transform,
@@ -72,11 +73,16 @@ h1 {
 
     #point_info {
         width: 100%;
+        margin-top: 0.5em;
     }
 }
 
 @media screen and (min-width:768px) {
     #point_display {
+        width: 70%;
+    }
+
+    #manual_div {
         width: 70%;
     }
 

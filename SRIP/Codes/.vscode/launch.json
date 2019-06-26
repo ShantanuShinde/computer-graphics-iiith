@@ -8,7 +8,7 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceFolder}\\js\\main_script.js"
+            "program": "${workspaceFolder}\\Transformations_Translation.js"
         }
     ]
 }
