@@ -26,8 +26,7 @@
     <div id="point" class="container-fluid">
         <div class="row">
             <div id="point_display" class="col-md-8">
-                <canvas id="renderCanvas" onmouseover="stopScroll()" onmouseout="startScroll()"
-                    onwheel="changeTextSize()"></canvas>
+                <canvas id="renderCanvas" onmouseover="stopScroll()" onmouseout="startScroll()"></canvas>
             </div>
             <div id="point_info" class="col-md-3">
                 <div class="row">
@@ -66,7 +65,7 @@
                     </div>
                     <div class="col-md-12">
                         <h5>Current point position:</h5>
-                        <p></p>
+                        <p id="current_position"></p>
                     </div>
                     <div class="col-md-12">
                         <input type="checkbox" id="coordinate_transform"
@@ -87,16 +86,19 @@
                         <div id="transformMatrix">
                         </div>
                     </div>
+                    <div class="col-md-8" id="manual_div">
+                        <h5 id="manual_heading">Manual</h5>
+                        <div id="manual">
+                            <div id="manual_content">
+                                <span class="close">&times;</span>
+                                <p></p>
+                                <p></p>
+                                <p></p>
+                                <p></p>
+                            </div>
+                        </div>
+                    </div>
 
-                </div>
-            </div>
-            <div class="col-md-8" id="manual_div">
-                <h5>Manual:</h5>
-                <div id="manual">
-                    <p></p>
-                    <p></p>
-                    <p></p>
-                    <p></p>
                 </div>
             </div>
 

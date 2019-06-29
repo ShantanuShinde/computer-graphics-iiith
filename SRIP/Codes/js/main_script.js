@@ -10,6 +10,7 @@
  var xy, yz, xz;
  var pXplane, nXplane, pYplane, nYplane, pZplane, nZplane;
  var cameraDefaultPostition = new BABYLON.Vector3(300, 300, 300);
+ var origin;
 
  init();
 
@@ -45,6 +46,9 @@
      // create grid
      createGrid();
 
+     // create origin
+     createOrigin();
+
      // Register a render loop to repeatedly render the scene
      engine.runRenderLoop(function () {
          scene.render();
@@ -66,12 +70,32 @@
 
      // Add text to the manual
      manual = document.getElementById("manual").getElementsByTagName("p");
-     manual[0].innerHTML = "<b><u>Translation</u></b><br><i><u>Introduction to the interface</u>:</i><br> <a href='#' onclick='manualForward()'> Next</a><br><br>This experiment is to demonstrate how translation transformation works on point and coordinate system. The point and coordinate system is displayed in the top part. The point starts at the origin. The current coordinates of the point are displayed above the point as well as below. Below the coordinates is the checkbox to select whether to move the point or the coordinate system. Below it are three checkboxes to select whether or not to display XY, YZ and XZ grids. Below it is the transformation matrix applied for translation. Below it is the slider to move the point or the coordinate system to the current destination. Than there are input for X, Y, Z. The <b>Set New Destination</b> button sets the X,Y,Z values as the current destination. Below it are another X,Y,Z values that can be editted. The <b>Set Starting Point</b> changes the starting position of the point to the value of these X, Y, Z. Below that are three buttons, <b>Set XY View</b>, <b>Set YZ View</b> and <b>Set XZ View</b>, to set camera view to XY, YZ and XZ planes respectively. The <b>Reset Camera</b> button resets the camera of the display.<br> <br> <a href='#' onclick='manualForward()'> Next</a>";
-     manual[1].innerHTML = "<i><u>Set Up</u>:</i><br> <a href='#' onclick='manualBackward()'> Previous</a> | <a href='#' onclick='manualForward()'>Next</a><br><br>The experiment starts with the point at the origin and the initial destination set to (100,100,-300). Translation transformation is applied to the point. This translation is animated. The slider can be dragged forward and backward to make the point move towards and away from the destination in the animation respectively. The destination of the point can be editted by typing in the coordinates in the first set of X,Y,Z and clicking the <b>Set New Destination</b> button.Starting position of the point can also be changed by putting in the new coordinates in the second set of X,Y,Z and clicking the <b>Set Starting Point</b> button. The point moves in 3D space and the camera can be moved by clicking and dragging in the display area to rotate and scrolling the mourse wheel in that area to change the distance. To set the camera view to 2D in XY, YZ and XZ planes, click <b>Set XY View</b>, <b>Set YZ View</b> and <b>Set XZ View</b> buttons respectively. To reset camera back to deafult view, click the <b>Reset Camera</b> button.<br><br> <a href='#' onclick='manualBackward()'> Previous</a> | <a href='#' onclick='manualForward()'>Next</a>";
-     manual[2].innerHTML = "<i><u>Vector Addition vs Matrix Product Form</u>:</i><br> <a href='#' onclick='manualBackward()'> Previous</a> | <a href='#' onclick='manualForward()'>Next</a><br><br>Translation can be represented in two ways: -<br> 1.Vector Addition Form: Trnaslation of (tx,ty,tz) units can be represented as vector addition of the units to the position of the point to which the translation is applied.<br>2.Matrix Product Form: This form is used in the experiment to represent translation. In this, translation of (tx,ty,tz) units on a point (px,py,pz) can be represented as the matrix multiplication of the Transformation matrix: <br><br>    $$\\begin{bmatrix} 1 & 0 & 0 & tx\\\\ 0 & 1 & 0 & ty\\\\ 0 & 0 & 1 & tz\\\\ 0 & 0 & 0 & 1 \\end{bmatrix}$$ <br><br>and the vector of the point: <br/<br>    $$\\begin{bmatrix} px \\\\ py \\\\ pz \\\\ 1 \\end{bmatrix}$$ <br/<br> In the experiment, the transformation matrix is displayed for the given starting point and destination.<br><br> <a href='#' onclick='manualBackward()'> Previous</a> | <a href='#' onclick='manualForward()'>Next</a>";
-     manual[3].innerHTML = "<i><u>Interpreting Transformations</u>: </i><br> <a href='#' onclick='manualBackward()'> Previous</a><br><br>Any transformation can be interpreted either as a modification of a point in the co-ordinate system or the modification of the co-ordinate system itself.Switch between the two interpretations at the point using the Transform Co-ordinate Systems checkbox.<br><br> <a href='#' onclick='manualBackward()'>Previous</a>"
+     manual[0].innerHTML = "<b><u>Translation</u></b><br><i><u>Introduction to the interface</u>:</i><br> <a href='javascript:void(0)' onclick='manualForward()'> Next</a><br><br>This experiment is to demonstrate how translation transformation works on point and coordinate system. The point and coordinate system is displayed in the top part. The point starts at the origin. The current coordinates of the point are displayed above the point as well as below. Below the coordinates is the checkbox to select whether to move the point or the coordinate system. Below it are three checkboxes to select whether or not to display XY, YZ and XZ grids. Below it is the transformation matrix applied for translation. Below it is the slider to move the point or the coordinate system to the current destination. Than there are input for X, Y, Z. The <b>Set New Destination</b> button sets the X,Y,Z values as the current destination. Below it are another X,Y,Z values that can be editted. The <b>Set Starting Point</b> changes the starting position of the point to the value of these X, Y, Z. Below that are three buttons, <b>Set XY View</b>, <b>Set YZ View</b> and <b>Set XZ View</b>, to set camera view to XY, YZ and XZ planes respectively. The <b>Reset Camera</b> button resets the camera of the display.<br> <br> <a href='javascript:void(0)' onclick='manualForward()'> Next</a>";
+     manual[1].innerHTML = "<i><u>Set Up</u>:</i><br> <a href='javascript:void(0)' onclick='manualBackward()'> Previous</a> | <a href='javascript:void(0)' onclick='manualForward()'>Next</a><br><br>The experiment starts with the point at the origin and the initial destination set to (100,100,-300). Translation transformation is applied to the point. This translation is animated. The slider can be dragged forward and backward to make the point move towards and away from the destination in the animation respectively. The destination of the point can be editted by typing in the coordinates in the first set of X,Y,Z and clicking the <b>Set New Destination</b> button.Starting position of the point can also be changed by putting in the new coordinates in the second set of X,Y,Z and clicking the <b>Set Starting Point</b> button. The point moves in 3D space and the camera can be moved by clicking and dragging in the display area to rotate and scrolling the mourse wheel in that area to change the distance. To set the camera view to 2D in XY, YZ and XZ planes, click <b>Set XY View</b>, <b>Set YZ View</b> and <b>Set XZ View</b> buttons respectively. To reset camera back to deafult view, click the <b>Reset Camera</b> button.<br><br> <a href='javascript:void(0)' onclick='manualBackward()'> Previous</a> | <a href='javascript:void(0)' onclick='manualForward()'>Next</a>";
+     manual[2].innerHTML = "<i><u>Vector Addition vs Matrix Product Form</u>:</i><br> <a href='javascript:void(0)' onclick='manualBackward()'> Previous</a> | <a href='javascript:void(0)' onclick='manualForward()'>Next</a><br><br>Translation can be represented in two ways: -<br> 1.Vector Addition Form: Trnaslation of (tx,ty,tz) units can be represented as vector addition of the units to the position of the point to which the translation is applied.<br>2.Matrix Product Form: This form is used in the experiment to represent translation. In this, translation of (tx,ty,tz) units on a point (px,py,pz) can be represented as the matrix multiplication of the Transformation matrix: <br><br>    $$\\begin{bmatrix} 1 & 0 & 0 & tx\\\\ 0 & 1 & 0 & ty\\\\ 0 & 0 & 1 & tz\\\\ 0 & 0 & 0 & 1 \\end{bmatrix}$$ <br><br>and the vector of the point: <br/<br>    $$\\begin{bmatrix} px \\\\ py \\\\ pz \\\\ 1 \\end{bmatrix}$$ <br/<br> In the experiment, the transformation matrix is displayed for the given starting point and destination.<br><br> <a href='javascript:void(0)' onclick='manualBackward()'> Previous</a> | <a href='javascript:void(0)' onclick='manualForward()'>Next</a>";
+     manual[3].innerHTML = "<i><u>Interpreting Transformations</u>: </i><br> <a href='javascript:void(0)' onclick='manualBackward()'> Previous</a><br><br>Any transformation can be interpreted either as a modification of a point in the co-ordinate system or the modification of the co-ordinate system itself.Switch between the two interpretations at the point using the Transform Co-ordinate Systems checkbox.<br><br> <a href='javascript:void(0)' onclick='manualBackward()'>Previous</a>"
      MathJax.Hub.Queue(["Typeset", MathJax.Hub, manual[2]]);
      manual[1].hidden = manual[2].hidden = manual[3].hidden = true;
+
+     // handle manual display
+     var modal = document.getElementById("manual");
+     var btn = document.getElementById("manual_heading");
+
+     var closeButton = document.getElementsByClassName("close")[0];
+
+     btn.onclick = function () {
+         modal.style.display = "block";
+     }
+
+     closeButton.onclick = function () {
+         modal.style.display = "none";
+     }
+
+     window.onclick = function (event) {
+         if (event.target == modal) {
+             modal.style.display = "none";
+         }
+     }
 
      displayTransformationMatrix();
      displayPosition();
@@ -91,7 +115,7 @@
      var info = document.getElementById("point_info");
      var sliderValue = document.getElementById("slider").getElementsByTagName("input")[0].value;
      var coordinate_info = "(" + (((vx - px) / 100) * sliderValue + px).toFixed(2) + "," + (((vy - py) / 100) * sliderValue + py).toFixed(2) + "," + (((vz - pz) / 100) * sliderValue + pz).toFixed(2) + ")";
-     info.getElementsByTagName("p")[4].innerHTML = coordinate_info;
+     document.getElementById("current_position").innerHTML = coordinate_info;
  }
 
  // function to change the position of the point or the coordinate axes and handle other display changes that come with it, called on moving the slider
@@ -99,9 +123,11 @@
      var x = ((vx - px) / 100) * newVal + px,
          y = ((vy - py) / 100) * newVal + py,
          z = ((vz - pz) / 100) * newVal + pz;
-     if (!transformCo_ordinate) { // change point position 
-         sphere.position = new BABYLON.Vector3(x, y, z); // change coordinate system
+     if (!transformCo_ordinate) {
+         // change point position 
+         sphere.position = new BABYLON.Vector3(x, y, z);
      } else {
+         // change coordinate system
          Xaxis = BABYLON.MeshBuilder.CreateLines("Xaxis", {
              points: [new BABYLON.Vector3(1000, y, z), new BABYLON.Vector3(-1000, y, z)],
              instance: Xaxis
@@ -114,6 +140,7 @@
              points: [new BABYLON.Vector3(x, y, 1000), new BABYLON.Vector3(x, y, -1000)],
              instance: Zaxis
          });
+
          // change axis label position
          pXplane.position.x = 100 + x, nXplane.position.x = -100 + x;
          pXplane.position.y = y, pXplane.position.z = z, nXplane.position.y = y, nXplane.position.z = z;
@@ -124,6 +151,9 @@
 
          // change grid position
          xy.position.z = z, yz.position.x = x, xz.position.y = y;
+
+         // change origin position
+         origin.position = new BABYLON.Vector3(x, y, z);
      }
      updateCoordinates();
      displayPosition();
@@ -162,6 +192,9 @@
 
      // reset grid position
      xy.position.z = pz, yz.position.x = px, xz.position.y = py;
+
+     // reset origin
+     origin.position = new BABYLON.Vector3(px, py, pz);
 
      document.getElementById("slider").getElementsByTagName("input")[0].value = 0;
      updateCoordinates();
@@ -440,7 +473,7 @@
      material.diffuseColor = new BABYLON.Color3(1, 1, 0);
      sphere.material = material;
 
-     // Display sphere coordinates
+     //// Display sphere coordinates
      textPlane = BABYLON.MeshBuilder.CreatePlane("textPlane", {
          width: 300,
          height: 100,
@@ -459,6 +492,37 @@
      textPlane.material = material;
      textplaneTexture.hasAlpha = true;
      textplaneTexture.drawText("(0.00,0.00,0.00)", 0, 200, "bold 40px monospace", "black", "transparent", true, true);
+ }
+
+ // function to create origin
+ function createOrigin() {
+     origin = new BABYLON.MeshBuilder.CreateSphere("origin", {
+         diameter: 3
+     }, scene);
+     var material = new BABYLON.StandardMaterial(scene);
+     material.alpha = 1;
+     material.diffuseColor = new BABYLON.Color3(1, 1, 1);
+     origin.material = material;
+
+     //// origin label
+     var originLabel = BABYLON.MeshBuilder.CreatePlane("originLabel", {
+         width: 50,
+         height: 50,
+         sideOrientation: 2
+     }, scene);
+     originLabel.setParent(origin);
+     originLabel.position.x = 28.28;
+     originLabel.position.z = -28.28;
+     originLabel.billboardMode = BABYLON.Mesh.BILLBOARDMODE_ALL;
+     var material = new BABYLON.StandardMaterial("origin label material", scene);
+     var originLabelTexture = new BABYLON.DynamicTexture("dynamic texture", {
+         width: 550,
+         height: 350
+     }, scene);
+     material.diffuseTexture = originLabelTexture;
+     originLabel.material = material;
+     originLabelTexture.hasAlpha = true;
+     originLabelTexture.drawText("Origin", 0, 200, "bold 100px monospace", "white", "transparent", true, true);
  }
 
  // function to create the coordinate grid in all three planes
