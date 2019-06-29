@@ -89,11 +89,17 @@
 
      closeButton.onclick = function () {
          modal.style.display = "none";
+         manual[manualIndex].hidden = true;
+         manualIndex = 0;
+         manual[manualIndex].hidden = false;
      }
 
      window.onclick = function (event) {
          if (event.target == modal) {
              modal.style.display = "none";
+             manual[manualIndex].hidden = true;
+             manualIndex = 0;
+             manual[manualIndex].hidden = false;
          }
      }
 
@@ -260,14 +266,14 @@
  // function called on clicking previous inside the manual to display the previous page
  function manualBackward() {
      manual[manualIndex].hidden = true;
-     manualIndex = (manualIndex - 1) % 4;
+     manualIndex = Math.abs((manualIndex - 1) % 4);
      manual[manualIndex].hidden = false;
  }
 
  // function called on clicking the next inside the manual to display the next page
  function manualForward() {
      manual[manualIndex].hidden = true;
-     manualIndex = (manualIndex + 1) % 4;
+     manualIndex = Math.abs((manualIndex + 1) % 4);
      manual[manualIndex].hidden = false;
  }
 
