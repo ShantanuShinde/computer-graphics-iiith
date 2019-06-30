@@ -11,90 +11,76 @@ h1 {
 #xyGrid,
 #yzGrid,
 #xzGrid {
-    margin-right: 10px;
+    margin-right: 0.625em;
 }
 
-@media screen and (min-width:840px) {
+@media screen and (min-width:1125px) {
+    #point_display {
+        height: 34.375em;
+    }
+}
+
+@media screen and (min-width:865px) and (max-width: 1125px) {
+    #point_display {
+        height: 31.25em;
+    }
+}
+
+@media screen and (min-width:865px) {
     h5 {
-        font-size: 18px;
+        font-size: 1.125em;
     }
 
     #point_display {
-        height: 600px;
+        width: 50%;
     }
 
     #point_info {
-        font-size: 15px;
+        font-size: 0.938em;
+        margin-left: 5%;
+        width: 20%;
     }
 
     #coordinate_transform,
     #xyGrid,
     #yzGrid,
     #xzGrid {
-        height: 15px;
-        width: 15px;
+        height: 0.938em;
+        width: 0.938em;
     }
 
-    #manual {
-        height: 150px;
-    }
 }
 
-@media screen and (max-width:840px) {
+@media screen and (max-width:865px) {
     h5 {
-        font-size: 13px;
+        font-size: 0.938em;
     }
 
     #point_display {
-        height: 400px;
-    }
-
-    #point_info {
-        font-size: 10px;
-    }
-
-    #coordinate_transform,
-    #xyGrid,
-    #yzGrid,
-    #xzGrid {
-        height: 10px;
-        width: 10px;
-    }
-
-    #manual {
-        height: 70px;
-    }
-}
-
-@media screen and (max-width:768px) {
-    #point_display {
+        height: 25em;
         width: 100%;
     }
 
     #point_info {
+        font-size: 0.625em;
         width: 100%;
         margin-top: 0.5em;
     }
-}
 
-@media screen and (min-width:768px) {
-    #point_display {
-        width: 70%;
-    }
-
-    #manual_div {
-        width: 70%;
-    }
-
-    #point_info {
-        width: 20%;
+    #coordinate_transform,
+    #xyGrid,
+    #yzGrid,
+    #xzGrid {
+        height: 0.625em;
+        width: 0.625em;
     }
 }
+
 
 #heading {
     top: 0;
     position: sticky;
-    background-color: blue;
+    background-color: #0000ff;
     z-index: 1;
     box-shadow: 0 0.250em 0.500em 0 rgba(0, 0, 0, 0.2), 0 0.375em 1.250em 0 rgba(0, 0, 0, 0.19);
     border-radius: 0 0 1em 1em;
@@ -102,20 +88,20 @@ h1 {
 
 body {
 
-    background: lightblue;
+    background: #add8e6;
 }
 
 #point {
     padding-top: 0.5em;
     padding-bottom: 0.5em;
-    display: inline-block;
+    display: relative;
 }
 
 #control {
-    background-color: mediumturquoise;
+    background-color: #48d1cc;
     display: inline-block;
     text-align: center;
-    border: 2px solid #000000;
+    border: 0.167em solid #000000;
 }
 
 #point>div {
@@ -126,18 +112,13 @@ body {
     overflow: hidden;
 }
 
-#point_info {
-    margin-left: 0.5em;
-}
-
 #slider {
-    /*float:left;*/
     margin-top: 0.5em;
     margin-right: 0.5em;
 }
 
 #control>div {
-    color: blue;
+    color: #0000ff;
     margin-bottom: 0.5em;
     margin-top: 0.5em;
     margin-right: 0.5em;
@@ -174,13 +155,13 @@ body {
 }
 
 #manual_heading {
-    color: blue;
+    color: #0000ff;
 }
 
 #manual_heading:hover {
-    color: green;
+    color: #00ff00;
     text-decoration-line: underline;
-    text-decoration-color: green;
+    text-decoration-color: #00ff00;
     cursor: pointer;
 }
 
@@ -193,7 +174,7 @@ input[type="number"] {
 }
 
 #renderCanvas {
-    border: 2px solid #000000;
+    border: 0.167em solid #000000;
 }
 
 #manual {
@@ -205,15 +186,15 @@ input[type="number"] {
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgb(0, 0, 0);
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color: #000000;
+    background-color: #00000066;
 }
 
 #manual_content {
     background-color: #fefefe;
     margin: 15% auto;
-    padding: 20px;
-    border: 1px solid #888;
+    padding: 1.25em;
+    border: 0.083em solid #888;
     width: 80%;
 }
 
@@ -226,7 +207,7 @@ input[type="number"] {
 
 .close:hover,
 .close:focus {
-    color: black;
+    color: #000000;
     text-decoration: none;
     cursor: pointer;
 }
