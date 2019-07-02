@@ -14,9 +14,22 @@ h1 {
     margin-right: 0.625em;
 }
 
+@media screen and (max-width:450px) and (min-height:550px) {
+    #point_display {
+        height: 20em;
+    }
+}
+
+@media screen and (max-width:865px) and (min-width:450px) {
+    #point_display {
+        height: 25em;
+
+    }
+}
+
 @media screen and (min-width:1125px) {
     #point_display {
-        height: 34.375em;
+        height: 32.5em;
     }
 }
 
@@ -31,14 +44,15 @@ h1 {
         font-size: 1.125em;
     }
 
-    #point_display {
-        width: 50%;
-    }
+
 
     #point_info {
         font-size: 0.938em;
-        margin-left: 5%;
-        width: 20%;
+        margin-left: 10%;
+    }
+
+    #display_control {
+        font-size: 0.938em;
     }
 
     #coordinate_transform,
@@ -56,15 +70,16 @@ h1 {
         font-size: 0.938em;
     }
 
-    #point_display {
-        height: 25em;
-        width: 100%;
-    }
+
 
     #point_info {
         font-size: 0.625em;
-        width: 100%;
+
         margin-top: 0.5em;
+    }
+
+    #display_control {
+        font-size: 0.625em;
     }
 
     #coordinate_transform,
@@ -104,6 +119,11 @@ body {
     border: 0.167em solid #000000;
 }
 
+#display_control {
+    margin-top: 0.5em;
+    border: 0.167em solid #000000;
+}
+
 #point>div {
     margin: 0em 0.5em;
 }
@@ -118,7 +138,6 @@ body {
 }
 
 #control>div {
-    color: #0000ff;
     margin-bottom: 0.5em;
     margin-top: 0.5em;
     margin-right: 0.5em;
