@@ -1,0 +1,102 @@
+{
+    "Quiz" : [
+        {
+            "Question" : "Which of the following is one of the ways of representing Translation?",
+            "A" : "Matrix Addition form",
+            "B" : "Vector Multiplication form",
+            "C" : "Vector Addition form",
+            "D" : "Matrix Inverse form",
+            "Answer" : "C"
+        },
+        {
+            "Question" : "Translation of a point can be represented in Matrix Product form as multiplication of:",
+            "A" : "Translation matrix & rotation vector",
+            "B" : "Translation matrix and position vector",
+            "C" : "Transformation matrix and position matrix",
+            "D" : "Transformation matrix and position vector",
+            "Answer" : "D"
+        },
+        {
+            "Question" : "Which of the following represents the Transformation matrix of translation (tx, ty, tz) units?",
+            "A" : "| 1 0 0 tx |\n| 0 1 0 ty |\n| 0 0 1 tz |\n| 0 0 0  1 |",
+            "B" : "|  0 1  0  1 |\n|  1 0 tx  0 |\n| ty 0  0  1 |\n|  0 1  0 tz |",
+            "C" : "|  1  0  1 tx |\n| ty  1  0  0 |\n|  1  0  0  1 |\n|  0  1 tz  0 |",
+            "D" : "| 0 1 0 tx |\n| 1 0 0 ty |\n| 0 0 1 tz |\n| 0 0 0  1 |",
+            "Answer" : "A"
+        },
+        {
+            "Question" : "Find the final Matrix Product Form of translation (21.4, 64.57, 81.9) being applied on point (11.4, 23.59, -2.4):",
+            "A" : "| 12.5  |\n| 2.4   |\n| 11.97 |\n| 1     |",
+            "B" : "| 32.4  |\n| 88.16 |\n| 79.5  |\n| 1     |",
+            "C" : "| 70.3   |\n| -12.56 |\n| 181.44 |\n| 6      |",
+            "D" : "| 6.81  |\n| 23.12 |\n| 1     |\n| 21.23 |",
+            "Answer" : "B"
+        },
+        {
+            "Question" : "What are the two ways to interpret transformation?",
+            "A" : "Rotation and translation",
+            "B" : "Transformation of coordinate system and transformation of an axis",
+            "C" : "Transformation of point in coordinate system and transformation of an axis",
+            "D" : "Transformation of point in coordinate system and transformation of coordinate system",
+            "Answer" : "D"
+        },
+        {
+            "Question" : "What is the range of coordinates allowed in the experiment?",
+            "A" : "100 to -100",
+            "B" : "100000 to -100000",
+            "C" : "1000 to -1000",
+            "D" : "2000 to -2000",
+            "Answer" : "C"
+        },
+        {
+            "Question" : "What is the color of X, Y, and Z axis in the experiment, respectively?",
+            "A" : "Blue, Green, Red",
+            "B" : "Yellow, Green, Blue",
+            "C" : "Red, Green, Yellow",
+            "D" : "Red, Green, Blue",
+            "Answer" : "D"
+        },
+        {
+            "Question" : "What are the coordinates of the default destination position in the experiment?",
+            "A" : "(100, -300, 100)",
+            "B" : "(100, 100, 300)",
+            "C" : "(100, 100, -100)",
+            "D" : "(100, 100, -300)",
+            "Answer" : "D"
+        },
+        {
+            "Question" : "What is the decimal point precision of the coordinates in the experiment?",
+            "A" : "3",
+            "B" : "1",
+            "C" : "2",
+            "D" : "5",
+            "Answer" : "C"
+        },
+        {
+            "Question" : "What is the length of the axes in the experiment?",
+            "A" : "3000",
+            "B" : "20000",
+            "C" : "1000",
+            "D" : "2000",
+            "Answer" : "D"
+        },
+        {
+            "Question" : "One step of the slider in the experiment moves the point towards the destination by what percentage?",
+            "A" : "1%",
+            "B" : "0.01%",
+            "C" : "0.1%",
+            "D" : "10%",
+            "Answer" : "B"
+        },
+        {
+            "Question" : "What is the default position of the camera in the main display in the experiment?",
+            "A" : "(100, 100, -300)",
+            "B" : "(200, 200, 200)",
+            "C" : "(500, -500, 500)",
+            "D" : "(300, 300, 300)",
+            "Answer" : "D"
+        }        
+    ]
+
+
+}
