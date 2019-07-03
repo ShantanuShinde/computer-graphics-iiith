@@ -16,28 +16,28 @@ Ans. D
 
 3. **Which of the following represents the Transformation matrix of translation (tx, ty, tz) units?**
 
-A. | 1 0 0 tx |    B. |  0 1  0  1 |
-   | 0 1 0 ty |       |  1 0 tx  0 |
-   | 0 0 1 tz |       | ty 0  0  1 | 
-   | 0 0 0  1 |       |  0 1  0 tz |
-
-C. |  1  0  1 tx | D. | 0 1 0 tx |
-   | ty  1  0  0 |    | 1 0 0 ty |
-   |  1  0  0  1 |    | 0 0 1 tz |
-   |  0  1 tz  0 |    | 0 0 0  1 |
+A. | 1 0 0 tx |    B. |  0 1  0  1 |<br/>
+   | 0 1 0 ty |       |  1 0 tx  0 |<br/>
+   | 0 0 1 tz |       | ty 0  0  1 |<br/> 
+   | 0 0 0  1 |       |  0 1  0 tz |<br/>
+<br/>
+C. |  1  0  1 tx | D. | 0 1 0 tx |<br/>
+   | ty  1  0  0 |    | 1 0 0 ty |<br/>
+   |  1  0  0  1 |    | 0 0 1 tz |<br/>
+   |  0  1 tz  0 |    | 0 0 0  1 |<br/>
 Ans. A
 
 4. **Find the final Matrix Product Form of translation (21.4, 64.57, 81.9) being applied on point (11.4, 23.59, -2.4):**
 
-A. | 12.5  |    B. | 32.4  |
-   | 2.4   |       | 88.16 |
-   | 11.97 |       | 79.5  |
-   | 1     |       | 1     |
-
-C. | 70.3   |   D. | 6.81  |
-   | -12.56 |      | 23.12 |
-   | 181.44 |      | 1     |
-   | 6      |      | 21.23 |
+A. | 12.5  |    B. | 32.4  |<br/>
+   | 2.4   |       | 88.16 |<br/>
+   | 11.97 |       | 79.5  |<br/>
+   | 1     |       | 1     |<br/>
+<br/>
+C. | 70.3   |   D. | 6.81  |<br/>
+   | -12.56 |      | 23.12 |<br/>
+   | 181.44 |      | 1     |<br/>
+   | 6      |      | 21.23 |<br/>
 Ans. B
 
 5. **What are the two ways to interpret transformation?**
