@@ -1,5 +1,5 @@
 ---
-# QuiZ
+# Quiz
 ---
 
 1. **Which of the following is one of the ways of representing Translation?**
