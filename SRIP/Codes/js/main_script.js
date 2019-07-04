@@ -135,31 +135,31 @@
      } else {
          // change coordinate system
          Xaxis = BABYLON.MeshBuilder.CreateLines("Xaxis", {
-             points: [new BABYLON.Vector3(1000, y, z), new BABYLON.Vector3(-1000, y, z)],
+             points: [new BABYLON.Vector3(1000, -y, -z), new BABYLON.Vector3(-1000, -y, -z)],
              instance: Xaxis
          });
          Yaxis = BABYLON.MeshBuilder.CreateLines("Yaxis", {
-             points: [new BABYLON.Vector3(x, 1000, z), new BABYLON.Vector3(x, -1000, z)],
+             points: [new BABYLON.Vector3(-x, 1000, -z), new BABYLON.Vector3(-x, -1000, -z)],
              instance: Yaxis
          });
          Zaxis = BABYLON.MeshBuilder.CreateLines("Zaxis", {
-             points: [new BABYLON.Vector3(x, y, 1000), new BABYLON.Vector3(x, y, -1000)],
+             points: [new BABYLON.Vector3(-x, -y, 1000), new BABYLON.Vector3(-x, -y, -1000)],
              instance: Zaxis
          });
 
          // change axis label position
-         pXplane.position.x = 100 + x, nXplane.position.x = -100 + x;
-         pXplane.position.y = y, pXplane.position.z = z, nXplane.position.y = y, nXplane.position.z = z;
-         pYplane.position.y = 100 + y, nYplane.position.y = -100 + y;
-         pYplane.position.x = x, pYplane.position.z = z, nYplane.position.x = x, nYplane.position.z = z;
-         pZplane.position.z = 100 + z, nZplane.position.z = -100 + z;
-         pZplane.position.x = x, pZplane.position.y = y, nZplane.position.x = x, nZplane.position.y = y;
+         nXplane.position.x = -100 - x, pXplane.position.x = 100 - x;
+         pXplane.position.y = -y, pXplane.position.z = -z, nXplane.position.y = -y, nXplane.position.z = -z;
+         nYplane.position.y = -100 - y, pYplane.position.y = 100 - y;
+         pYplane.position.x = -x, pYplane.position.z = -z, nYplane.position.x = -x, nYplane.position.z = -z;
+         nZplane.position.z = -100 - z, pZplane.position.z = 100 - z;
+         pZplane.position.x = -x, pZplane.position.y = -y, nZplane.position.x = -x, nZplane.position.y = -y;
 
          // change grid position
-         xy.position.z = z, yz.position.x = x, xz.position.y = y;
+         xy.position.z = -z, yz.position.x = -x, xz.position.y = -y;
 
          // change origin position
-         origin.position = new BABYLON.Vector3(x, y, z);
+         origin.position = new BABYLON.Vector3(-x, -y, -z);
      }
      updateCoordinates();
      displayPosition();
@@ -167,41 +167,60 @@
 
  // function to switch between coordinate transformation and transformation of the point, called on clicking the Transform Coordinates checkbox
  function transformCoordinate(transform) {
-     resetPoint();
      transformCo_ordinate = transform;
+     resetAxes();
+     resetPoint();
      displayPosition();
+ }
+
+ // function to reset coordinate axes
+ function resetAxes () {
+     var x, y, z;
+     if(transformCo_ordinate) {
+         x = -px;
+         y = -py;
+         z = -pz;
+     } else {
+         x = 0, y = 0, z = 0;
+     }
+    // reset coordinate system position
+    Xaxis = BABYLON.MeshBuilder.CreateLines("Xaxis", {
+        points: [new BABYLON.Vector3(1000, y, z), new BABYLON.Vector3(-1000, y, z)],
+        instance: Xaxis
+    });
+    Yaxis = BABYLON.MeshBuilder.CreateLines("Yaxis", {
+        points: [new BABYLON.Vector3(x, 1000, z), new BABYLON.Vector3(x, -1000, z)],
+        instance: Yaxis
+    });
+    Zaxis = BABYLON.MeshBuilder.CreateLines("Zaxis", {
+        points: [new BABYLON.Vector3(x, y, 1000), new BABYLON.Vector3(x, y, -1000)],
+        instance: Zaxis
+    });
+
+    // reset axis label position
+    pXplane.position.x = x + 100, pXplane.position.y = y, pXplane.position.z = z, nXplane.position.x = x - 100, nXplane.position.y = y, nXplane.position.z = z;
+    pYplane.position.y = y + 100, pYplane.position.x = x, pYplane.position.z = z, nYplane.position.y = y - 100, nYplane.position.x = x, nYplane.position.z = z;
+    pZplane.position.z = z + 100, pZplane.position.x = x, pZplane.position.y = y, nZplane.position.z = z - 100, nZplane.position.x = x, nZplane.position.y = y;
+
+    // reset grid position
+    xy.position.z = z, yz.position.x = x, xz.position.y = y;
+
+    // reset origin
+    origin.position = new BABYLON.Vector3(x, y, z);
+
+    document.getElementById("slider").getElementsByTagName("input")[0].value = 0;
+    updateCoordinates();
  }
 
  // function to reset point or coordinate position to the starting position
  function resetPoint() {
-     // reset coordinate system position
-     Xaxis = BABYLON.MeshBuilder.CreateLines("Xaxis", {
-         points: [new BABYLON.Vector3(1000, py, pz), new BABYLON.Vector3(-1000, py, pz)],
-         instance: Xaxis
-     });
-     Yaxis = BABYLON.MeshBuilder.CreateLines("Yaxis", {
-         points: [new BABYLON.Vector3(px, 1000, pz), new BABYLON.Vector3(px, -1000, pz)],
-         instance: Yaxis
-     });
-     Zaxis = BABYLON.MeshBuilder.CreateLines("Zaxis", {
-         points: [new BABYLON.Vector3(px, py, 1000), new BABYLON.Vector3(px, py, -1000)],
-         instance: Zaxis
-     });
-
      // reset point position
-     sphere.position = new BABYLON.Vector3(px, py, pz);
-
-     // reset axis label position
-     pXplane.position.x = 100, pXplane.position.y = py, pXplane.position.z = pz, nXplane.position.x = -100, nXplane.position.y = py, nXplane.position.z = pz;
-     pYplane.position.y = 100, pYplane.position.x = px, pYplane.position.z = pz, nYplane.position.y = -100, nYplane.position.x = px, nYplane.position.z = pz;
-     pZplane.position.z = 100, pZplane.position.x = px, pZplane.position.y = py, nZplane.position.z = -100, nZplane.position.x = px, nZplane.position.y = py;
-
-     // reset grid position
-     xy.position.z = pz, yz.position.x = px, xz.position.y = py;
-
-     // reset origin
-     origin.position = new BABYLON.Vector3(px, py, pz);
-
+     if(!transformCo_ordinate) {
+        sphere.position = new BABYLON.Vector3(px, py, pz);
+     } else {
+         sphere.position = new BABYLON.Vector3(0, 0, 0);
+     }
+     
      document.getElementById("slider").getElementsByTagName("input")[0].value = 0;
      updateCoordinates();
  }
@@ -240,6 +259,7 @@
          pz = tempPZ;
      }
      resetPoint();
+     resetAxes();
  }
 
  // function to change the destination position of the point, called on pressing the Set New Destination button
@@ -258,6 +278,7 @@
          vz = tempVZ;
      }
      resetPoint();
+     resetAxes();
      displayTransformationMatrix();
      displayPosition();
  }
@@ -466,7 +487,6 @@
      nZplane.material = nZmaterial;
      nZPlaneTexture.hasAlpha = true;
      nZPlaneTexture.drawText("- Z", 200, 90, "bold 50px monospace", "blue", "transparent", true, true);
-
  }
 
  // function to create the point
