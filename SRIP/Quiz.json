@@ -1,101 +1,284 @@
 {
     "Quiz" : [
         {
-            "Question" : "Which of the following is one of the ways of representing Translation?",
-            "A" : "Matrix Addition form",
-            "B" : "Vector Multiplication form",
-            "C" : "Vector Addition form",
-            "D" : "Matrix Inverse form",
-            "Answer" : "C"
+            "quiz_title" : "Quiz for the experiment",
+            "containers" : "25"
         },
         {
-            "Question" : "Translation of a point can be represented in Matrix Product form as multiplication of:",
-            "A" : "Translation matrix & rotation vector",
-            "B" : "Translation matrix and position vector",
-            "C" : "Transformation matrix and position matrix",
-            "D" : "Transformation matrix and position vector",
-            "Answer" : "D"
+            "question" : "Which of the following is one of the ways of representing Translation?",
+            "options" : [
+                "Matrix Addition form",
+                "Vector Multiplication form",
+                "Vector Addition form",
+                "Matrix Inverse form"
+            ],
+            "answer" : "Vector Addition form",
+            "description" : "Factual question. Translation can be represented as addition of transalation vector to position vector"
         },
         {
-            "Question" : "Which of the following represents the Transformation matrix of translation (tx, ty, tz) units?",
-            "A" : "| 1 0 0 tx |\n| 0 1 0 ty |\n| 0 0 1 tz |\n| 0 0 0  1 |",
-            "B" : "|  0 1  0  1 |\n|  1 0 tx  0 |\n| ty 0  0  1 |\n|  0 1  0 tz |",
-            "C" : "|  1  0  1 tx |\n| ty  1  0  0 |\n|  1  0  0  1 |\n|  0  1 tz  0 |",
-            "D" : "| 0 1 0 tx |\n| 1 0 0 ty |\n| 0 0 1 tz |\n| 0 0 0  1 |",
-            "Answer" : "A"
+            "question" : "Which of the following is one of the ways of representing Translation?",
+            "options" : [
+                "Matrix Addition form",
+                "Vector Product form",
+                "Matrix Product form",
+                "Matrix Inverse form",
+            ],
+            "answer" : "Matrix Product form",
+            "description" : "Factual question. Translation can be represented as product of transformation matrix and position vector"
         },
         {
-            "Question" : "Find the final Matrix Product Form of translation (21.4, 64.57, 81.9) being applied on point (11.4, 23.59, -2.4):",
-            "A" : "| 12.5  |\n| 2.4   |\n| 11.97 |\n| 1     |",
-            "B" : "| 32.4  |\n| 88.16 |\n| 79.5  |\n| 1     |",
-            "C" : "| 70.3   |\n| -12.56 |\n| 181.44 |\n| 6      |",
-            "D" : "| 6.81  |\n| 23.12 |\n| 1     |\n| 21.23 |",
-            "Answer" : "B"
+            "question" : "Translation of a point can be represented in Matrix Product form as multiplication of:",
+            "options" : [
+                "Translation matrix & rotation vector",
+                "Translation matrix and position vector",
+                "Transformation matrix and position matrix",
+                "Transformation matrix and position vector"
+            ],            
+            "answer" : "Transformation matrix and position vector",
+            "description" : "Factual question"
         },
         {
-            "Question" : "What are the two ways to interpret transformation?",
-            "A" : "Rotation and translation",
-            "B" : "Transformation of coordinate system and transformation of an axis",
-            "C" : "Transformation of point in coordinate system and transformation of an axis",
-            "D" : "Transformation of point in coordinate system and transformation of coordinate system",
-            "Answer" : "D"
+            "question" : "Which of the following represents the Transformation matrix of translation (tx, ty, tz) units?",
+            "options" : [
+                "| 1 0 0 tx |\n| 0 1 0 ty |\n| 0 0 1 tz |\n| 0 0 0  1 |",
+                "|  0 1  0  1 |\n|  1 0 tx  0 |\n| ty 0  0  1 |\n|  0 1  0 tz |",
+                "|  1  0  1 tx |\n| ty  1  0  0 |\n|  1  0  0  1 |\n|  0  1 tz  0 |",
+                "| 0 1 0 tx |\n| 1 0 0 ty |\n| 0 0 1 tz |\n| 0 0 0  1 |"
+            ],
+            "answer" : "| 1 0 0 tx |\n| 0 1 0 ty |\n| 0 0 1 tz |\n| 0 0 0  1 |",
+            "description" : "Factual question"
         },
         {
-            "Question" : "What is the range of coordinates allowed in the experiment?",
-            "A" : "100 to -100",
-            "B" : "100000 to -100000",
-            "C" : "1000 to -1000",
-            "D" : "2000 to -2000",
-            "Answer" : "C"
+            "question" : "Find the final Matrix Product Form of translation (21.4, 64.57, 81.9) being applied on point (11.4, 23.59, -2.4):",
+            "options" : [
+                "| 12.5  |\n| 2.4   |\n| 11.97 |\n| 1     |",
+                "| 32.4  |\n| 88.16 |\n| 79.5  |\n| 1     |",
+                "| 70.3   |\n| -12.56 |\n| 181.44 |\n| 6      |",
+                "| 6.81  |\n| 23.12 |\n| 1     |\n| 21.23 |"
+            ],
+            "answer" : "| 32.4  |\n| 88.16 |\n| 79.5  |\n| 1     ",
+            "description" : "Perform matrix multiplication of the Translation matrix and position vector"
         },
         {
-            "Question" : "What is the color of X, Y, and Z axis in the experiment, respectively?",
-            "A" : "Blue, Green, Red",
-            "B" : "Yellow, Green, Blue",
-            "C" : "Red, Green, Yellow",
-            "D" : "Red, Green, Blue",
-            "Answer" : "D"
+            "question" : "What are the two ways to interpret transformation?",
+            "options" : [
+                "Rotation and translation",
+                "Transformation of coordinate system and transformation of an axis",
+                "Transformation of point in coordinate system and transformation of an axis",
+                "Transformation of point in coordinate system and transformation of coordinate system"
+            ],
+            "answer" : "Transformation of point in coordinate system and transformation of coordinate system",
+            "description" : "Factual question"
         },
         {
-            "Question" : "What are the coordinates of the default destination position in the experiment?",
-            "A" : "(100, -300, 100)",
-            "B" : "(100, 100, 300)",
-            "C" : "(100, 100, -100)",
-            "D" : "(100, 100, -300)",
-            "Answer" : "D"
+            "question" : "What is the range of coordinates allowed in the experiment?",
+            "options" : [
+                "100 to -100",
+                "100000 to -100000",
+                "1000 to -1000",
+                "2000 to -2000"
+            ],
+            "answer" : "1000 to -1000",
+            "description" : "It is the range of numbers that can be passed into the input for the coordinates of starting and destination positions"
         },
         {
-            "Question" : "What is the decimal point precision of the coordinates in the experiment?",
-            "A" : "3",
-            "B" : "1",
-            "C" : "2",
-            "D" : "5",
-            "Answer" : "C"
+            "question" : "What is the color of X, Y, and Z axis in the experiment, respectively?",
+            "options" : [
+                "Blue, Green, Red",
+                "Yellow, Green, Blue",
+                "Red, Green, Yellow",
+                "Red, Green, Blue"
+            ],
+            "answer" : "Red, Green, Blue",
+            "description" : "The color of the axes can be observed in the experiment"
         },
         {
-            "Question" : "What is the length of the axes in the experiment?",
-            "A" : "3000",
-            "B" : "20000",
-            "C" : "1000",
-            "D" : "2000",
-            "Answer" : "D"
+            "question" : "What are the coordinates of the default destination position in the experiment?",
+            "options" : [
+                "(100, -300, 100)",
+                "(100, 100, 300)",
+                "(100, 100, -100)",
+                "(100, 100, -300)"
+            ],
+            "answer" : "(100, 100, -300)",
+            "description" : "The default destination position is value of the coordinates of point which can be seen as the default values of the coordinate inputs for Set New Destination"
         },
         {
-            "Question" : "One step of the slider in the experiment moves the point towards the destination by what percentage?",
-            "A" : "1%",
-            "B" : "0.01%",
-            "C" : "0.1%",
-            "D" : "10%",
-            "Answer" : "B"
+            "question" : "What is the decimal point precision of the coordinates in the experiment?",
+            "options" : [
+                "3",
+                "1", 
+                "2",
+                "5"
+            ],
+            "answer" : "2",
+            "description" : "The coordinates in the experiment are displayed with 2 decimal points. Hence, their decimal point precision is 2"
         },
         {
-            "Question" : "What is the default position of the camera in the main display in the experiment?",
-            "A" : "(100, 100, -300)",
-            "B" : "(200, 200, 200)",
-            "C" : "(500, -500, 500)",
-            "D" : "(300, 300, 300)",
-            "Answer" : "D"
-        }        
+            "question" : "What is the length of the axes in the experiment?",
+            "options" : [
+                "3000",
+                "20000",
+                "1000",
+                "2000"
+            ],
+            "answer" : "2000",
+            "description" : "The axes are from +1000 to -1000, thus their length is 2000"
+        },
+        {
+            "question" : "One step of the slider in the experiment moves the point towards the destination by what percentage?",
+            "options" : [
+                "1%",
+                "0.01%",
+                "0.1%",
+                "10%"
+            ],
+            "answer" : "0.01%",
+            "description" : "The value of the slider is from 0 to 100. Hence, one step of slider is 1/100 which is 0.01"
+        },
+        {
+            "question" : "What is the default position of the camera in the main display in the experiment?",
+            "options" : [
+                "(100, 100, -300)",
+                "(200, 200, 200)",
+                "(500, -500, 500)",
+                "(300, 300, 300)"
+            ],
+            "answer" : "(300, 300, 300)",
+            "description" : "The position of the camera can be found using the console in the developers's tools of the browser"
+        },
+        {
+            "question" : "What is the length of smallest demarkation on the grid?",
+            "options" : [
+                "0.1 units",
+                "0.5 units",
+                "1 unit",
+                "10 units"
+            ],
+            "answer" : "1 units",
+            "description" : "The smallest lines on the grid are at 1 unit intervals"
+        },
+        {
+            "question": "What is the radius of the main yellow point?",
+            "options" : [
+                "3.4 units",
+                "2.5 units",
+                "2.1 units",
+                "1.5 units",
+            ],
+            "answer" : "2.5 units",
+            "description" : "The radius and diameter of the point can be measured by turning on the grid"
+        },
+        {
+            "question" : "What is the smallest distance the point can be moved using the slider?",
+            "options" : [
+                "0.0001 units",
+                "0.1 units",
+                "0.01 units",
+                "1 units"
+            ],
+            "answer" : "0.0001 units",
+            "description" : "The smallest translation of a coordinate is 0.01 as coordinate upto 2 decimals can be entered. Thus, for this trnaslation, each step of slider will move the point by 0.01 x 0.01 = 0.0001 units"
+        },
+        {
+            "question" : "Find the final Matrix Product Form of translation (10.32, 12.23, 1.9) being applied on point (30.4, 12.59, 22.4):",
+            "options" : [
+                "| 2.6  |\n| 13.5   |\n| 1.67 |\n| 1     |",
+                "| 32.4  |\n| 88.16 |\n| 79.5  |\n| 1     |",
+                "| 40.72   |\n| 24.82 |\n| 24.3 |\n| 1    |",
+                "| 6.81  |\n| 23.12 |\n| 1     |\n| 21.23 |"
+            ],
+            "answer" : "| 40.72   |\n| 24.82 |\n| 24.3 |\n| 1    |",
+            "description" : "Perform matrix multiplication of the Translation matrix and position vector"
+        },   
+        {
+            "question" : "Which of the following represents the Transformation matrix of translation (13.44, -45.63, -28.04) units?",
+            "options" : [
+                "| 1 0 0 -28.04 |\n| 0 1 0 13.44 |\n| 0 0 1 -45.63 |\n| 0 0 0  1 |",
+                "|  0 1  0  1 |\n|  1 0 34.50  0 |\n| 20.45 0  0  1 |\n|  0 1  0 31.45 |",
+                "|  1  0  0 13.44  |\n|   0  1  0 -45.63 |\n|  0  0  1 -28.04  |\n|  0  0 0  1 |",
+                "| 0 1 0 13.44 |\n| 1 0 0  -28.04 |\n| 0 0 1 -45.63 |\n| 0 0 0  1 |"
+            ],
+            "answer" : "|  1  0  0 13.44  |\n|   0  1  0 -45.63 |\n|  0  0  1 -28.04  |\n|  0  0 0  1 |",
+            "description" : "Transformation matrix of translation (tx, ty, tz) is | 1 0 0 tx |\n| 0 1 0 ty |\n| 0 0 1 tz |\n| 0 0 0  1 |"
+        },     
+        {
+            "question" : "What is the approx. distance of the axis labels from the origin?",
+            "options" : [
+                "130 units",
+                "200 units",
+                "100 units",
+                "50 units"
+            ],
+            "answer" : "100 units",
+            "description" : "The distance can be measured using the grid"
+        },
+        {
+            "question" : "What is the maximum distance the point can be from the origin?",
+            "options" : [
+                "1732.05",
+                "1000",
+                "1535.43",
+                "1414.21"
+            ],
+            "answer" : "1732.05",
+            "description" : "The maximum distance of the point will be at position (+/-1000, +/-1000, +/-1000), so, distance = sqrt(1000^2 + 1000^2 + 1000^2) = 1732.05 "
+        },
+        {
+            "question" : "What is the number of the total possible destination positions for the point in the experiment?",
+            "options" : [
+                "8012006001‬",
+                "800000000000",
+                "8012006001‬00",
+                "8000000000"
+            ],
+            "answer" : "8012006001‬00",
+            "description" : "Each destination position has 3 coordinates each of which can take 2001 integer values (-1000 to 1000), so that makes 8012006001‬ possibilities. Each integer value can have 100 different decimals (00 to 99), so, that makes 8012006001‬ x 100 = 8012006001‬00"
+        },
+        {
+            "question" : "Find the final Matrix Product Form of translation (-200.45, 123.45, 21.51) being applied on point (80.23, 67.12, -43.23):",
+            "options" : [
+                "| 2.6  |\n| -13.5   |\n| 1.67 |\n| 1     |",
+                "| -120.22  |\n| 190.57 |\n| -21.72  |\n| 1     |",
+                "| 40.72   |\n| 24.82 |\n| 24.3 |\n| 1    |",
+                "| -6.81  |\n| 23.12 |\n| 1     |\n| 21.23 |"
+            ],
+            "answer" : "| -120.22  |\n| 190.57 |\n| -21.72  |\n| 1     |",
+            "description" : "Perform matrix multiplication of the Translation matrix and position vector"
+        },   
+        {
+            "question" : "Which of the following represents the Transformation matrix of translation (13.44, -45.63, -28.04) units?",
+            "options" : [
+                "| 1 0 0 -28.04 |\n| 0 1 0 13.44 |\n| 0 0 1 -45.63 |\n| 0 0 0  1 |",
+                "|  0 1  0  1 |\n|  1 0 34.50  0 |\n| 20.45 0  0  1 |\n|  0 1  0 31.45 |",
+                "|  1  0  0 13.44  |\n|   0  1  0 -45.63 |\n|  0  0  1 -28.04  |\n|  0  0 0  1 |",
+                "| 0 1 0 13.44 |\n| 1 0 0  -28.04 |\n| 0 0 1 -45.63 |\n| 0 0 0  1 |"
+            ],
+            "answer" : "|  1  0  0 13.44  |\n|   0  1  0 -45.63 |\n|  0  0  1 -28.04  |\n|  0  0 0  1 |",
+            "description" : "Transformation matrix of translation (tx, ty, tz) is | 1 0 0 tx |\n| 0 1 0 ty |\n| 0 0 1 tz |\n| 0 0 0  1 |"
+        },
+        {
+            "question" : "What is the final matrix product form of default destination and start position in the experiment?",
+            "options" : [
+                "| 100  |\n| 100   |\n| -300 |\n| 1     |",
+                "| 100  |\n| 100 |\n| 300  |\n| 1     |",
+                "| 10   |\n| 30 |\n| 10 |\n| 1    |",
+                "| 100  |\n| 200 |\n| 300     |\n| 1 |"
+            ],
+            "answer" : "| 100  |\n| 100   |\n| -300 |\n| 1     |",
+            "description" : "The default starting and destination positions are (0, 0, 0) and (100, 100, -300) respectively"
+        },
+        {
+            "question" : "On switcing to XY, YZ, or XZ view, what is the distance of the camera from the origin?",
+            "options" : [
+                "300 units",
+                "400 units",
+                "100 units",
+                "1000 units"
+            ],
+            "answer" : "300 units",
+            "description" : "The distance can be found by switching to any of the view and then checking the camera position using the console of developer's tool in the browser"
+        }    
     ]
 
 

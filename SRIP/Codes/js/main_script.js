@@ -174,53 +174,53 @@
  }
 
  // function to reset coordinate axes
- function resetAxes () {
+ function resetAxes() {
      var x, y, z;
-     if(transformCo_ordinate) {
+     if (transformCo_ordinate) {
          x = -px;
          y = -py;
          z = -pz;
      } else {
          x = 0, y = 0, z = 0;
      }
-    // reset coordinate system position
-    Xaxis = BABYLON.MeshBuilder.CreateLines("Xaxis", {
-        points: [new BABYLON.Vector3(1000, y, z), new BABYLON.Vector3(-1000, y, z)],
-        instance: Xaxis
-    });
-    Yaxis = BABYLON.MeshBuilder.CreateLines("Yaxis", {
-        points: [new BABYLON.Vector3(x, 1000, z), new BABYLON.Vector3(x, -1000, z)],
-        instance: Yaxis
-    });
-    Zaxis = BABYLON.MeshBuilder.CreateLines("Zaxis", {
-        points: [new BABYLON.Vector3(x, y, 1000), new BABYLON.Vector3(x, y, -1000)],
-        instance: Zaxis
-    });
+     // reset coordinate system position
+     Xaxis = BABYLON.MeshBuilder.CreateLines("Xaxis", {
+         points: [new BABYLON.Vector3(1000, y, z), new BABYLON.Vector3(-1000, y, z)],
+         instance: Xaxis
+     });
+     Yaxis = BABYLON.MeshBuilder.CreateLines("Yaxis", {
+         points: [new BABYLON.Vector3(x, 1000, z), new BABYLON.Vector3(x, -1000, z)],
+         instance: Yaxis
+     });
+     Zaxis = BABYLON.MeshBuilder.CreateLines("Zaxis", {
+         points: [new BABYLON.Vector3(x, y, 1000), new BABYLON.Vector3(x, y, -1000)],
+         instance: Zaxis
+     });
 
-    // reset axis label position
-    pXplane.position.x = x + 100, pXplane.position.y = y, pXplane.position.z = z, nXplane.position.x = x - 100, nXplane.position.y = y, nXplane.position.z = z;
-    pYplane.position.y = y + 100, pYplane.position.x = x, pYplane.position.z = z, nYplane.position.y = y - 100, nYplane.position.x = x, nYplane.position.z = z;
-    pZplane.position.z = z + 100, pZplane.position.x = x, pZplane.position.y = y, nZplane.position.z = z - 100, nZplane.position.x = x, nZplane.position.y = y;
+     // reset axis label position
+     pXplane.position.x = x + 100, pXplane.position.y = y, pXplane.position.z = z, nXplane.position.x = x - 100, nXplane.position.y = y, nXplane.position.z = z;
+     pYplane.position.y = y + 100, pYplane.position.x = x, pYplane.position.z = z, nYplane.position.y = y - 100, nYplane.position.x = x, nYplane.position.z = z;
+     pZplane.position.z = z + 100, pZplane.position.x = x, pZplane.position.y = y, nZplane.position.z = z - 100, nZplane.position.x = x, nZplane.position.y = y;
 
-    // reset grid position
-    xy.position.z = z, yz.position.x = x, xz.position.y = y;
+     // reset grid position
+     xy.position.z = z, yz.position.x = x, xz.position.y = y;
 
-    // reset origin
-    origin.position = new BABYLON.Vector3(x, y, z);
+     // reset origin
+     origin.position = new BABYLON.Vector3(x, y, z);
 
-    document.getElementById("slider").getElementsByTagName("input")[0].value = 0;
-    updateCoordinates();
+     document.getElementById("slider").getElementsByTagName("input")[0].value = 0;
+     updateCoordinates();
  }
 
  // function to reset point or coordinate position to the starting position
  function resetPoint() {
      // reset point position
-     if(!transformCo_ordinate) {
-        sphere.position = new BABYLON.Vector3(px, py, pz);
+     if (!transformCo_ordinate) {
+         sphere.position = new BABYLON.Vector3(px, py, pz);
      } else {
          sphere.position = new BABYLON.Vector3(0, 0, 0);
      }
-     
+
      document.getElementById("slider").getElementsByTagName("input")[0].value = 0;
      updateCoordinates();
  }
@@ -625,4 +625,9 @@
  // function to resume web page scrolling, called when mouseout of the main display
  function startScroll() {
      document.body.style.overflow = "auto";
+ }
+
+ // function to restrict the decimal points of the input
+ function restrictDecimals(inputElement) {
+     inputElement.value = parseFloat(inputElement.value).toFixed(2);
  }

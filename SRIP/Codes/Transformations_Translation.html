@@ -81,20 +81,23 @@
                             </div>
 
                             <div class="col-md-12"><span>X: </span><input id="destX" type="number" step="0.01"
-                                    value=100></div>
+                                    value=100.00 onchange="restrictDecimals(this)"></div>
                             <div class="col-md-12"><span>Y: </span><input id="destY" type="number" step="0.01"
-                                    value=100></div>
+                                    value=100.00 onchange="restrictDecimals(this)"></div>
                             <div class="col-md-12"><span>Z: </span><input id="destZ" type="number" step="0.01"
-                                    value=-300></div>
+                                    value=-300.00 onchange="restrictDecimals(this)"></div>
 
                             <div class="col-md-12"><button id="change_destination" onclick="setNewDestination()">Set New
                                     Destination</button></div>
 
-                            <div class="col-md-12"><span>X: </span><input id="strtX" type="number" step="0.01" value=0>
+                            <div class="col-md-12"><span>X: </span><input id="strtX" type="number" step="0.01"
+                                    value=0.00 onchange="restrictDecimals(this)">
                             </div>
-                            <div class="col-md-12"><span>Y: </span><input id="strtY" type="number" step="0.01" value=0>
+                            <div class="col-md-12"><span>Y: </span><input id="strtY" type="number" step="0.01"
+                                    value=0.00 onchange="restrictDecimals(this)">
                             </div>
-                            <div class="col-md-12"><span>Z: </span><input id="strtZ" type="number" step="0.01" value=0>
+                            <div class="col-md-12"><span>Z: </span><input id="strtZ" type="number" step="0.01"
+                                    value=0.00 onchange="restrictDecimals(this)">
                             </div>
 
                             <div class="col-md-12"><button id="change_starting_point"
