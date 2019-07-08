@@ -120,7 +120,7 @@
  function displayPosition() {
      var info = document.getElementById("point_info");
      var sliderValue = document.getElementById("slider").getElementsByTagName("input")[0].value;
-     var coordinate_info = "(" + (((vx - px) / 100) * sliderValue + px).toFixed(2) + "," + (((vy - py) / 100) * sliderValue + py).toFixed(2) + "," + (((vz - pz) / 100) * sliderValue + pz).toFixed(2) + ")";
+     var coordinate_info = "(" + (((vx - px) / 100) * sliderValue + px).toFixed(2) + ", " + (((vy - py) / 100) * sliderValue + py).toFixed(2) + ", " + (((vz - pz) / 100) * sliderValue + pz).toFixed(2) + ")";
      document.getElementById("current_position").innerHTML = coordinate_info;
  }
 
@@ -260,6 +260,7 @@
      }
      resetPoint();
      resetAxes();
+     displayTransformationMatrix();
  }
 
  // function to change the destination position of the point, called on pressing the Set New Destination button

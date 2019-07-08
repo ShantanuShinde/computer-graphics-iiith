@@ -70,11 +70,8 @@ h1 {
         font-size: 0.938em;
     }
 
-
-
     #point_info {
         font-size: 0.625em;
-
         margin-top: 0.5em;
     }
 
@@ -86,8 +83,12 @@ h1 {
     #xyGrid,
     #yzGrid,
     #xzGrid {
-        height: 0.625em;
-        width: 0.625em;
+        height: 0.75em;
+        width: 0.75em;
+    }
+
+    #transformMatrixDisplay {
+        margin-bottom: 0.5em;
     }
 }
 
@@ -97,8 +98,9 @@ h1 {
     position: sticky;
     background-color: #0000ff;
     z-index: 1;
-    box-shadow: 0 0.250em 0.500em 0 rgba(0, 0, 0, 0.2), 0 0.375em 1.250em 0 rgba(0, 0, 0, 0.19);
+    box-shadow: 0 0.250em 0.500em 0 rgba(0, 0, 0, 0.6), 0 0.375em 1.250em 0 rgba(0, 0, 0, 0.19);
     border-radius: 0 0 1em 1em;
+    color: #ffffff;
 }
 
 body {
@@ -106,7 +108,7 @@ body {
     background: #add8e6;
 }
 
-#point {
+#main_content {
     padding-top: 0.5em;
     padding-bottom: 0.5em;
     display: relative;
@@ -124,7 +126,7 @@ body {
     border: 0.167em solid #000000;
 }
 
-#point>div {
+#main_content>div {
     margin: 0em 0.5em;
 }
 
@@ -229,4 +231,39 @@ input[type="number"] {
     color: #000000;
     text-decoration: none;
     cursor: pointer;
+}
+
+label {
+    display: block;
+    padding-left: 15px;
+}
+
+input[type="checkbox"] {
+    padding: 0;
+    margin: 0;
+    vertical-align: bottom;
+    position: relative;
+    top: -1px;
+    *overflow: hidden;
+}
+
+button {
+    border-radius: 8px;
+    color: #ffffff;
+    background-color: #00008b;
+    text-align: center;
+}
+
+#coordinates {
+    background-color: #0000ff;
+    margin-top: 0.5em;
+    color: #ffffff;
+    text-align: center;
+}
+
+#transformMatrixDisplay {
+    background-color: #00ffff;
+    text-align: center;
+    margin-top: 0.5em;
+    padding-bottom: 0.4em;
 }
